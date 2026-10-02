@@ -4,6 +4,8 @@ Physically qualified ARM64/SM87 CUDA wheels, exact target locks, build recipes, 
 
 > **Target:** NVIDIA JetPack 7.2.1 / Jetson Linux (L4T) R39.2.1 on Jetson AGX Orin 64 GB.
 >
+> NVIDIA release mapping: [JetPack 7.2.1 with Jetson Linux 39.2.1](https://developer.nvidia.com/embedded/jetpack/downloads).
+>
 > **Status:** eight-wheel R1 candidate set qualified by exact clean-install on the physical AGX Orin. No binary release is published yet.
 >
 > **Need this on a different target?** Deployment help, custom board bring-up and model porting are offered through [commercial advisory](COMMERCIAL.md). This public repository is a self-service reference and qualification showcase, not a general-purpose free Jetson support service.
