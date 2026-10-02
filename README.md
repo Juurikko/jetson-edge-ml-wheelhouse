@@ -122,7 +122,7 @@ R1 ships SHA-256 manifests, a machine-readable release-asset record, the frozen 
 
 The repository itself is now guarded by a deterministic `repository-integrity` workflow. It validates the frozen target contract, candidate hashes, source-lock consistency, public-redaction rules, and that binary release payloads have not been committed to Git history.
 
-See [docs/verification.md](docs/verification.md), [the R1 candidate manifest](manifests/release-r1-candidates.json), and [source provenance](provenance/README.md).
+See [docs/verification.md](docs/verification.md), [the R1 publication record](manifests/release-r1-publication.json), [the frozen R1 candidate manifest](manifests/release-r1-candidates.json), and [source provenance](provenance/README.md).
 
 ## Case studies
 
@@ -139,7 +139,7 @@ See [case-studies/README.md](case-studies/README.md).
 
 This repository indexes artifacts derived from multiple upstream projects with different licences. There is deliberately **no blanket repository licence applied to third-party wheel contents**.
 
-Each release asset will carry its own source, licence/notice and redistribution record. Vendor runtimes such as CUDA/cuDNN/NPP, PyTorch, FFmpeg/GStreamer and NVIDIA cuSPARSELt are treated separately and are not automatically rehosted.
+The R1 release is accompanied by exact source, licence/notice, qualification and redistribution records. Vendor runtimes such as CUDA/cuDNN/NPP, PyTorch, FFmpeg/GStreamer and NVIDIA cuSPARSELt are treated separately and are not automatically rehosted.
 
 See [NOTICE.md](NOTICE.md), the [R1 notice index](notices/README.md), and the [release asset policy](docs/release-assets.md).
 
