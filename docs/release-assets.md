@@ -10,7 +10,7 @@ Planned tag:
 agx-orin-r39.2.1-cu13.2-py312-sm87-r1
 ```
 
-The release should contain:
+The exact eight-wheel candidate set has now passed clean-install qualification on the physical AGX. The release should contain:
 
 - each approved exact `.whl`;
 - `SHA256SUMS`;
@@ -21,6 +21,8 @@ The release should contain:
 - licence / third-party notice bundle;
 - SBOM or equivalent package inventory where practical;
 - clean-install verification receipt.
+
+The AGX-generated final release manifest is frozen at SHA-256 `5477ecb13707194157a56b0d68ee4bb0af15b1c63ce226addd5decec101c3ec2`. The clean-install receipt is SHA-256 `ab85d9c77a1230279dedec168b333f73416d3921bb691831af87a1bb0d4075ea`.
 
 ## Repository versus release
 
