@@ -11,7 +11,7 @@ This index records the release-hygiene state established by the public-release a
 | PointROPE | MIT via LitePT | public `.2` rebuild embeds upstream MIT licence/build notice; release candidate |
 | OpenCV + contrib | Apache-2.0 plus third-party components | exact wheel carries its third-party notice tree; external multimedia/CUDA runtimes documented separately |
 | cumm | Apache-2.0 | public `2agxrelease1` rebuild corrects stale package metadata; exact wheel physically qualified; release candidate |
-| Open3D | MIT plus substantial third-party closure | release-friendly replacement and notice closure pending |
+| Open3D | MIT plus third-party notices | public thin-repack closes CuTeDSL build-notice provenance, externalizes target runtimes, preserves computational ELF bytes; release candidate |
 
 ## External runtimes
 
@@ -23,4 +23,4 @@ The audited OpenCV wheel contains the `cv2` ELF payload and an extensive embedde
 
 ## Open3D
 
-The accepted internal Open3D wheel is not yet a public-release asset. The release audit found bundled GCC/TBB runtime libraries and a large third-party notice inventory, so replacement bytes require a cleaner dependency-closure review and full device requalification.
+The public Open3D R1 wheel externalizes libgfortran/libtbb to the frozen target OS, removes an unreferenced bundled libgomp, and removes the stale build-tree CuTeDSL EULA notice only after a provenance gate showed no CuTeDSL payload outside the generated licence tree. The accepted libOpen3D and pybind computational ELF bytes are preserved byte-for-byte and the resulting wheel passed full physical AGX requalification.
