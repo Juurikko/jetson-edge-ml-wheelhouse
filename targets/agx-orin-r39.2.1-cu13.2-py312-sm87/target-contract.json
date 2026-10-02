@@ -1,0 +1,41 @@
+{
+  "schema": "synrex.jetson_wheelhouse_target_contract.v1",
+  "target_id": "agx-orin-r39.2.1-cu13.2-py312-sm87",
+  "qualification_status": "qualified",
+  "hardware": {
+    "device": "NVIDIA Jetson AGX Orin 64 GB",
+    "architecture": "aarch64",
+    "gpu": "Orin",
+    "compute_capability": [
+      8,
+      7
+    ],
+    "cuda_arch": "sm_87"
+  },
+  "os": {
+    "ubuntu": "24.04.4 LTS",
+    "l4t": "R39.2.1",
+    "kernel": "6.8.12-1021-tegra",
+    "glibc": "2.39",
+    "nvidia_driver": "595.78"
+  },
+  "toolchain": {
+    "python": "3.12.3",
+    "gcc": "13.3.0",
+    "gxx": "13.3.0",
+    "cuda": "13.2.86",
+    "cuda_home": "/usr/local/cuda-13.2"
+  },
+  "python_stack": {
+    "torch": "2.14.0+cu132",
+    "torch_git": "08187d9e0fba026dc8217405802ab5381dc88d90",
+    "torch_cxx11_abi": true,
+    "numpy": "2.5.2",
+    "scipy_locked": "1.18.1"
+  },
+  "caveats": [
+    "Only this exact target contract is qualified for the first release channel.",
+    "The base application venv and the complete locked wheelhouse are distinct scopes; not every locked dependency is necessarily installed in the base venv.",
+    "Jetson unified-memory CUDA allocation must not be described as dedicated physical VRAM."
+  ]
+}
