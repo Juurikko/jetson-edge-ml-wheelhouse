@@ -1,2 +1,101 @@
-# jetson-edge-ml-wheelhouse
-- Physically qualified ARM64/SM87 CUDA wheels, exact target locks, build recipes and reproducible Jetson AGX Orin edge-ML evidence.
+# Jetson AGX Orin R39.2.1 / CUDA 13.2 / Python 3.12 / SM87 Wheelhouse
+
+Physically qualified ARM64/SM87 CUDA wheels, exact target locks, build recipes, and reproducible Jetson edge-ML evidence.
+
+> **Status:** repository bootstrap in progress. No binary release is published yet.
+
+## Qualified target
+
+The first release channel is intentionally narrow:
+
+- NVIDIA Jetson AGX Orin 64 GB
+- Linux `aarch64`
+- Ubuntu 24.04.4 LTS
+- L4T R39.2.1
+- kernel 6.8.12-1021-tegra
+- glibc 2.39
+- NVIDIA driver 595.78
+- CUDA 13.2.86
+- GCC/G++ 13.3.0
+- CPython 3.12.3
+- PyTorch 2.14.0+cu132
+- Orin GPU, compute capability 8.7 / SM87
+
+Nearby Jetson configurations may work, but they are **not qualified by this release** unless explicitly listed.
+
+See [SUPPORTED_TARGETS.md](SUPPORTED_TARGETS.md) and the [machine-readable target contract](targets/agx-orin-r39.2.1-cu13.2-py312-sm87/target-contract.json).
+
+## Why this repository exists
+
+Jetson developers often reach a point where upstream Python packages are missing the exact ARM64/CUDA/Python combination required by a current BSP. This repository is intended to make those gaps reproducible rather than anecdotal.
+
+A wheel is not called “supported” here merely because it built. Each artifact is tied to:
+
+- an exact upstream source commit;
+- an exact target contract;
+- an exact SHA-256;
+- a documented build origin;
+- a stated qualification scope;
+- known limitations and redistribution notices.
+
+## Planned first-release artifacts
+
+| Artifact | Current state | Qualification headline |
+|---|---|---|
+| torch-scatter | release candidate | Physical CUDA Q2; graph-stack Q3; LitePT exact-parity integration |
+| torch-sparse | release candidate | Physical CUDA Q2; graph-stack Q3 |
+| torch-cluster | release candidate | Physical CUDA Q2; graph-stack Q3 |
+| spconv | release candidate | Physical SubMConv Q2; LitePT application Q4 |
+| native LitePT PointROPE | release candidate | Physical CUDA + C08 exact-parity requalification PASS |
+| OpenCV 4.14 CUDA | release candidate | AArch64/SM87 CUDA image + CUDA DNN physical PASS |
+| cumm | release pending | packaging metadata cleanup + requalification |
+| Open3D 0.20 CUDA | release pending | release-friendly dependency-closure rebuild + full requalification |
+
+Exact hashes and qualification boundaries are documented in [wheels/README.md](wheels/README.md).
+
+## Qualification levels
+
+- Q0 — SOURCE_LOCKED
+- Q1 — BUILD_STATIC_CPU
+- Q2 — DEVICE_GPU
+- Q3 — STACK_HIL
+- Q4 — MODEL_APPLICATION
+- Q5 — PERFORMANCE
+- Q6 — OFFLINE_CONTAINER
+
+See [qualification/qualification-levels.md](qualification/qualification-levels.md).
+
+## Installation
+
+Binary installation instructions will be published with the first GitHub Release. Until then, this repository is documentation/manifest-first and intentionally does not publish an install command pointing at unreleased artifacts.
+
+See [docs/installation.md](docs/installation.md).
+
+## Verification
+
+The first release will ship SHA-256 manifests, a machine-readable wheelhouse lock, and target-verification tooling.
+
+See [docs/verification.md](docs/verification.md).
+
+## Case studies
+
+Two application-level studies are being prepared:
+
+- LitePT-L optimization on AGX Orin, including native SM87 PointROPE and native torch-scatter.
+- ECLAIR four-scene point-density operating envelope from native density down to 0.5 pts/m².
+
+These are engineering case studies, not claims that four selected scenes replace the broader ECLAIR benchmark.
+
+See [case-studies/README.md](case-studies/README.md).
+
+## Licensing and redistribution
+
+This repository indexes artifacts derived from multiple upstream projects with different licences. There is deliberately **no blanket repository licence applied to third-party wheel contents**.
+
+Each release asset will carry its own source, licence/notice and redistribution record. Vendor runtimes such as CUDA/cuDNN/NPP, PyTorch, FFmpeg/GStreamer and NVIDIA cuSPARSELt are treated separately and are not automatically rehosted.
+
+See [NOTICE.md](NOTICE.md).
+
+## Disclaimer
+
+These are unofficial community builds. NVIDIA, PyTorch, PyG, OpenCV, Open3D, LitePT and other upstream projects do not endorse these binaries.
