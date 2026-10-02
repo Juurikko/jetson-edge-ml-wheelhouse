@@ -1,6 +1,6 @@
 # Commercial advisory
 
-**Engineering lead & contact:** [Tuomas Pietilä on LinkedIn](https://www.linkedin.com/in/tuomas-pietila/)
+**Engineering lead & contact:** Tuomas Pietilä, SynRex Oy · [tuomas.pietila@synrex.fi](mailto:tuomas.pietila@synrex.fi) · [LinkedIn](https://www.linkedin.com/in/tuomas-pietila/)
 
 This repository is a public engineering reference for a narrowly qualified Jetson AGX Orin stack. It demonstrates how SynRex Oy approaches unsupported edge-ML software: exact source identity, controlled ARM64/CUDA builds, physical-device qualification, application-level testing and release evidence.
 
@@ -28,7 +28,7 @@ Commercial work is scoped separately around a defined target, deliverable and ev
 
 ## Starting a conversation
 
-Open a [commercial advisory request](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/issues/new?template=commercial-advisory.yml) with only **non-confidential** information, or connect with [Tuomas Pietilä on LinkedIn](https://www.linkedin.com/in/tuomas-pietila/).
+Open a [commercial advisory request](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/issues/new?template=commercial-advisory.yml) with only **non-confidential** information, or contact Tuomas Pietilä at [tuomas.pietila@synrex.fi](mailto:tuomas.pietila@synrex.fi) or on [LinkedIn](https://www.linkedin.com/in/tuomas-pietila/).
 
 Useful initial details are:
 
