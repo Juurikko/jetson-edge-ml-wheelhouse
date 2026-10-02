@@ -82,6 +82,8 @@ A custom request can pin the JetPack / Jetson Linux release, CUDA toolkit, Pytho
 
 Custom Wheel Foundry work is a commercial service, not an expansion of the free support matrix of this repository. A requested configuration is described as qualified only after its own target-specific evidence gates have passed.
 
+**The proprietary SynRex Custom Wheel Foundry software platform used in producing and qualifying these artifacts is also available for commercial licensing.** Licensing or acquisition arrangements are scoped separately from custom wheel-build services and do not transfer or override third-party software licences.
+
 [Request a custom wheel build](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/issues/new?template=commercial-advisory.yml) · [Commercial advisory](COMMERCIAL.md) · [Tuomas Pietilä on LinkedIn](https://www.linkedin.com/in/tuomas-pietila/) · [tuomas.pietila@synrex.fi](mailto:tuomas.pietila@synrex.fi)
 
 ## Commercial advisory
@@ -94,6 +96,7 @@ Typical engagements include:
 - custom board bring-up and BSP / CUDA / Python stack validation;
 - model porting and application-level qualification;
 - **Custom Wheel Foundry builds for AGX Orin and Orin Nano at specified dependency/software stacks;**
+- **commercial licensing of SynRex's proprietary Custom Wheel Foundry software platform;**
 - missing ARM64/CUDA wheel ports and private wheelhouses;
 - CI-built versus native-device rebuild comparison;
 - hardware-in-the-loop qualification and release evidence;
