@@ -157,6 +157,10 @@ def verify_public_positioning() -> None:
         "custom board bring-up commercial scope missing",
     )
     require("model porting" in readme.lower(), "model porting commercial scope missing")
+    require(
+        "https://www.linkedin.com/in/tuomas-pietila/" in readme,
+        "engineering lead LinkedIn contact missing from README",
+    )
     print("public_positioning=PASS")
 
 
