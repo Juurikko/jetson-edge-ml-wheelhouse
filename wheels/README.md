@@ -1,8 +1,12 @@
 # Wheel status
 
-This page records the intended first-release artifacts and their current release state.
+This page records the exact wheel bytes published in the R1 GitHub Release.
 
-## Release candidates — current exact bytes
+Release: https://github.com/Juurikko/jetson-edge-ml-wheelhouse/releases/tag/agx-orin-r39.2.1-cu13.2-py312-sm87-r1
+
+All eight wheels below are published R1 assets and retain the exact SHA-256 identities that passed physical qualification before publication.
+
+## Published R1 — exact bytes
 
 ### torch-scatter
 
@@ -89,9 +93,11 @@ opencv_contrib source a8e9acd62cabd30419dba83007f2ac0d07de5e2c
 
 Scope: physical CUDA image operations PASS; CUDA DNN Conv+ReLU PASS. FFmpeg/GStreamer/CUDA runtime libraries are external dependencies, not bundled release assets.
 
-## Release pending
+## R1 publication status
 
-None for the intended R1 custom-wheel set.
+**Published.** Eight exact custom wheels are available as individual GitHub Release assets and inside the convenience bundle `SYNREX_AGX_ORIN_R1_8_WHEEL_BUNDLE.tar.gz`.
+
+The complete 15-asset release was downloaded back from GitHub to the physical AGX and SHA-256 round-trip verified before publication.
 
 ## Base/vendor dependencies
 
