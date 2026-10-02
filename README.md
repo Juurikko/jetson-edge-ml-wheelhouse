@@ -10,7 +10,9 @@ Physically qualified ARM64/SM87 CUDA wheels, exact target locks, build recipes, 
 >
 > NVIDIA release mapping: [JetPack 7.2.1 with Jetson Linux 39.2.1](https://developer.nvidia.com/embedded/jetpack/downloads).
 >
-> **Status:** eight-wheel R1 candidate set qualified by exact clean-install on the physical AGX Orin. No binary release is published yet.
+> **Status:** R1 is publicly released. The exact eight-wheel set was physically qualified on the AGX Orin, uploaded as GitHub Release assets, downloaded back to the AGX, and SHA-256 round-trip verified before publication.
+>
+> **Release:** [agx-orin-r39.2.1-cu13.2-py312-sm87-r1](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/releases/tag/agx-orin-r39.2.1-cu13.2-py312-sm87-r1)
 >
 > **Need this on a different target?** Deployment help, custom board bring-up and model porting are offered through [commercial advisory](COMMERCIAL.md). This public repository is a self-service reference and qualification showcase, not a general-purpose free Jetson support service.
 
@@ -49,18 +51,18 @@ A wheel is not called “supported” here merely because it built. Each artifac
 - a stated qualification scope;
 - known limitations and redistribution notices.
 
-## Planned first-release artifacts
+## Published R1 artifacts
 
 | Artifact | Current state | Qualification headline |
 |---|---|---|
-| torch-scatter | release candidate | Physical CUDA Q2; graph-stack Q3; LitePT exact-parity integration |
-| torch-sparse | release candidate | Physical CUDA Q2; graph-stack Q3 |
-| torch-cluster | release candidate | Physical CUDA Q2; graph-stack Q3 |
-| spconv | release candidate | Physical SubMConv Q2; LitePT application Q4 |
-| native LitePT PointROPE | release candidate | Physical CUDA + C08 exact-parity requalification PASS |
-| OpenCV 4.14 CUDA | release candidate | AArch64/SM87 CUDA image + CUDA DNN physical PASS |
-| cumm | release candidate | Apache-2.0 metadata corrected; physical TensorView + spconv compatibility PASS |
-| Open3D 0.20 CUDA | release candidate | computational ELF bytes preserved; full physical CUDA/geometry/Torch requalification PASS |
+| torch-scatter | published R1 | Physical CUDA Q2; graph-stack Q3; LitePT exact-parity integration |
+| torch-sparse | published R1 | Physical CUDA Q2; graph-stack Q3 |
+| torch-cluster | published R1 | Physical CUDA Q2; graph-stack Q3 |
+| spconv | published R1 | Physical SubMConv Q2; LitePT application Q4 |
+| native LitePT PointROPE | published R1 | Physical CUDA + C08 exact-parity requalification PASS |
+| OpenCV 4.14 CUDA | published R1 | AArch64/SM87 CUDA image + CUDA DNN physical PASS |
+| cumm | published R1 | Apache-2.0 metadata corrected; physical TensorView + spconv compatibility PASS |
+| Open3D 0.20 CUDA | published R1 | computational ELF bytes preserved; full physical CUDA/geometry/Torch requalification PASS |
 
 Exact hashes and qualification boundaries are documented in [wheels/README.md](wheels/README.md). The combined eight-wheel set also passed the [R1 exact clean-install qualification](qualification/r1-clean-install.md).
 
@@ -110,13 +112,13 @@ Use the [commercial advisory request](https://github.com/Juurikko/jetson-edge-ml
 
 ## Installation
 
-Binary installation instructions will be published with the first GitHub Release. Until then, this repository is documentation/manifest-first and intentionally does not publish an install command pointing at unreleased artifacts.
+The R1 binary assets are published in the [R1 GitHub Release](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/releases/tag/agx-orin-r39.2.1-cu13.2-py312-sm87-r1). Verify hashes and the exact target contract before installation. The convenience bundle contains the eight custom wheels plus qualification evidence; base/vendor dependencies such as PyTorch, SciPy and NVIDIA software are not automatically rehosted.
 
 See [docs/installation.md](docs/installation.md).
 
 ## Verification
 
-The first release will ship SHA-256 manifests, a machine-readable wheelhouse lock, and target-verification tooling.
+R1 ships SHA-256 manifests, a machine-readable release-asset record, the frozen target contract, and qualification evidence. The release was downloaded back from GitHub to the physical AGX and verified byte-for-byte before publication.
 
 The repository itself is now guarded by a deterministic `repository-integrity` workflow. It validates the frozen target contract, candidate hashes, source-lock consistency, public-redaction rules, and that binary release payloads have not been committed to Git history.
 
