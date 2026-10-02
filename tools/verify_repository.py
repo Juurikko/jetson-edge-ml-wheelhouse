@@ -30,6 +30,7 @@ REQUIRED = [
     ROOT / "qualification/qualification-levels.md",
     ROOT / "qualification/pointrope-public-release-r1.md",
     ROOT / "qualification/cumm-public-release-r1.md",
+    ROOT / "qualification/open3d-public-release-r1.md",
     TARGET,
 ]
 
@@ -241,6 +242,8 @@ def verify_manifest(target: dict) -> dict:
             )
 
     require(ids == expected_ids, f"artifact set mismatch: {sorted(ids)}")
+    require(candidates == 8, f"expected 8 release candidates, got {candidates}")
+    require(pending == 0, f"expected 0 release-pending artifacts, got {pending}")
     print(f"release_candidates={candidates} release_pending={pending} PASS")
     return manifest
 
@@ -355,6 +358,25 @@ def verify_cumm_receipt(manifest: dict) -> None:
     print("cumm_receipt=PASS")
 
 
+def verify_open3d_receipt(manifest: dict) -> None:
+    open3d = next(x for x in manifest["artifacts"] if x["id"] == "open3d")
+    require(open3d["status"] == "release_candidate", "Open3D not release_candidate")
+    content = (ROOT / "qualification/open3d-public-release-r1.md").read_text(
+        encoding="utf-8"
+    )
+    require(open3d["filename"] in content, "Open3D qualification missing filename")
+    require(open3d["sha256"] in content, "Open3D qualification missing SHA-256")
+    require(
+        "OPEN3D_PUBLIC_RELEASE_PHYSICAL_GATE=PASS" in content,
+        "Open3D physical PASS marker missing",
+    )
+    require(
+        "computational ELF bytes" in content,
+        "Open3D computational-ELF preservation statement missing",
+    )
+    print("open3d_receipt=PASS")
+
+
 def main() -> int:
     try:
         verify_required_files()
@@ -366,6 +388,7 @@ def main() -> int:
         verify_redaction(files)
         verify_pointrope_receipt(manifest)
         verify_cumm_receipt(manifest)
+        verify_open3d_receipt(manifest)
     except VerifyError as exc:
         print(f"REPOSITORY_INTEGRITY=FAIL: {exc}")
         return 1
