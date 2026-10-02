@@ -113,7 +113,7 @@ bytes 1341454695
 SHA-256 5946f0d90e0c58af15dcdbd96c33d7faa6b6c13b32427895675ee6065893799d
 ```
 
-The remote archive was observed only after the release script had reached its terminal COMPLETE state.
+The remote archive was observed only after the release script had reached its terminal COMPLETE state. The archive was then copied off-device to TPSamsung15 and independently verified there at the same byte size and SHA-256: `OPEN3D_OFF_DEVICE_COPY=PASS`.
 
 ## Claim boundary
 
