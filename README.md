@@ -1,7 +1,9 @@
-# Jetson AGX Orin R39.2.1 / CUDA 13.2 / Python 3.12 / SM87 Wheelhouse
+# JetPack 7.2.1 — Jetson AGX Orin / CUDA 13.2 / Python 3.12 / SM87 Wheelhouse
 
 Physically qualified ARM64/SM87 CUDA wheels, exact target locks, build recipes, and reproducible Jetson edge-ML evidence — engineered and qualified by **SynRex Oy**.
 
+> **Target:** NVIDIA JetPack 7.2.1 / Jetson Linux (L4T) R39.2.1 on Jetson AGX Orin 64 GB.
+>
 > **Status:** eight-wheel R1 candidate set qualified by exact clean-install on the physical AGX Orin. No binary release is published yet.
 >
 > **Need this on a different target?** Deployment help, custom board bring-up and model porting are offered through [commercial advisory](COMMERCIAL.md). This public repository is a self-service reference and qualification showcase, not a general-purpose free Jetson support service.
@@ -11,9 +13,10 @@ Physically qualified ARM64/SM87 CUDA wheels, exact target locks, build recipes, 
 The first release channel is intentionally narrow:
 
 - NVIDIA Jetson AGX Orin 64 GB
+- NVIDIA JetPack 7.2.1
+- Jetson Linux / L4T R39.2.1
 - Linux `aarch64`
 - Ubuntu 24.04.4 LTS
-- L4T R39.2.1
 - kernel 6.8.12-1021-tegra
 - glibc 2.39
 - NVIDIA driver 595.78
