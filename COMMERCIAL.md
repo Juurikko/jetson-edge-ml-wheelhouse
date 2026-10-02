@@ -6,6 +6,29 @@ This repository is a public engineering reference for a narrowly qualified Jetso
 
 It is **not** intended to turn every adjacent Jetson configuration into a community-supported target.
 
+## SynRex Custom Wheel Foundry
+
+SynRex offers **request-driven custom wheel builds for Jetson AGX Orin and Jetson Orin Nano**.
+
+The requested target is defined before work begins. A target contract can include:
+
+- Jetson module / device and carrier environment;
+- JetPack and Jetson Linux / L4T release;
+- CUDA toolkit and GPU architecture;
+- CPython version / ABI;
+- PyTorch or other framework version;
+- exact upstream package release or commit;
+- required optional features and native dependencies;
+- requested qualification level.
+
+Depending on scope, the deliverable can include the resulting wheel(s), source and dependency locks, build recipe, SHA-256 manifest, installation instructions and physical-device qualification evidence.
+
+This does **not** mean every combination is already supported. The public repository qualifies only the explicitly documented targets; a custom configuration becomes a qualified SynRex deliverable only after its own agreed evidence gates pass.
+
+Typical requests include a missing wheel for a new JetPack/Python combination, rebuilding a CUDA extension against a particular PyTorch stack, or producing a private mutually compatible wheel set for an application.
+
+[Open a Custom Wheel Foundry / commercial advisory request](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/issues/new?template=commercial-advisory.yml).
+
 ## Where commercial advisory fits
 
 Commercial advisory is appropriate when you need help turning a promising build into a usable deployment, for example:
@@ -13,6 +36,7 @@ Commercial advisory is appropriate when you need help turning a promising build 
 - **deployment help** — packaging, runtime closure, offline installation, service/container integration and reproducible deployment;
 - **custom board bring-up** — carrier-board or platform-specific validation, BSP/runtime integration and hardware-dependent troubleshooting;
 - **model porting** — moving an existing model or pipeline onto a Jetson target and proving the relevant CUDA/application path;
+- **Custom Wheel Foundry** — requested AGX Orin / Orin Nano wheels for a specified dependency and software stack;
 - **missing wheel / dependency enablement** — ARM64/CUDA/Python ports for exact target combinations;
 - **private wheelhouses** — customer-specific artifact sets, source locks, hashes and installation manifests;
 - **qualification** — physical HIL tests, import-order/runtime collision checks, numerical or application parity and performance evidence;
