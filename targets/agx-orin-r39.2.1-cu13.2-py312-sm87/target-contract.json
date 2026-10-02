@@ -13,6 +13,7 @@
     "cuda_arch": "sm_87"
   },
   "os": {
+    "jetpack": "7.2.1",
     "ubuntu": "24.04.4 LTS",
     "l4t": "R39.2.1",
     "kernel": "6.8.12-1021-tegra",
