@@ -31,6 +31,8 @@ REQUIRED = [
     ROOT / "qualification/pointrope-public-release-r1.md",
     ROOT / "qualification/cumm-public-release-r1.md",
     ROOT / "qualification/open3d-public-release-r1.md",
+    ROOT / "qualification/r1-clean-install.md",
+    ROOT / "manifests/release-r1-freeze-receipt.json",
     TARGET,
 ]
 
@@ -377,6 +379,47 @@ def verify_open3d_receipt(manifest: dict) -> None:
     print("open3d_receipt=PASS")
 
 
+def verify_clean_install_receipt() -> None:
+    content = (ROOT / "qualification/r1-clean-install.md").read_text(
+        encoding="utf-8"
+    )
+    require(
+        "EXACT_8_WHEEL_CLEAN_INSTALL=PASS" in content,
+        "clean-install PASS marker missing",
+    )
+    require(
+        "5477ecb13707194157a56b0d68ee4bb0af15b1c63ce226addd5decec101c3ec2"
+        in content,
+        "final release manifest hash missing from clean-install record",
+    )
+
+    receipt = load_json(ROOT / "manifests/release-r1-freeze-receipt.json")
+    require(
+        receipt.get("schema")
+        == "synrex.jetson_edge_ml_wheelhouse.release_freeze_receipt.v1",
+        "release freeze receipt schema mismatch",
+    )
+    require(receipt.get("release_candidate_count") == 8, "freeze receipt candidate count mismatch")
+    require(receipt.get("clean_install_status") == "PASS", "clean install not PASS")
+    validate_sha256(
+        receipt.get("clean_install_receipt_sha256"),
+        "clean_install_receipt_sha256",
+    )
+    validate_sha256(
+        receipt.get("agx_generated_final_release_manifest_sha256"),
+        "agx_generated_final_release_manifest_sha256",
+    )
+    bundle = receipt.get("evidence_bundle", {})
+    validate_sha256(bundle.get("sha256"), "clean-install evidence bundle sha256")
+    require(bundle.get("bytes") == 11788, "clean-install evidence bundle size mismatch")
+    require(receipt.get("release_created") is False, "freeze receipt cannot claim release exists")
+    require(
+        receipt.get("binary_assets_published") is False,
+        "freeze receipt cannot claim binary assets are published",
+    )
+    print("clean_install_receipt=PASS")
+
+
 def main() -> int:
     try:
         verify_required_files()
@@ -389,6 +432,7 @@ def main() -> int:
         verify_pointrope_receipt(manifest)
         verify_cumm_receipt(manifest)
         verify_open3d_receipt(manifest)
+        verify_clean_install_receipt()
     except VerifyError as exc:
         print(f"REPOSITORY_INTEGRITY=FAIL: {exc}")
         return 1
