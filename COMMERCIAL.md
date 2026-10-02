@@ -29,6 +29,16 @@ Typical requests include a missing wheel for a new JetPack/Python combination, r
 
 [Open a Custom Wheel Foundry / commercial advisory request](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/issues/new?template=commercial-advisory.yml).
 
+## Custom Wheel Foundry software licensing
+
+The **proprietary SynRex Custom Wheel Foundry software platform used to build and qualify the wheel artifacts demonstrated in this repository is available for commercial licensing**.
+
+This is separate from commissioning SynRex to build a particular wheel. Licensing can be discussed for organizations that want the foundry capability in their own engineering workflow, infrastructure or product-development environment. Commercial terms, deployment model, permitted use, deliverables and maintenance scope are agreed for the specific engagement.
+
+The SynRex licence applies only to SynRex proprietary technology. It does not grant rights to CUDA, PyTorch, Open3D, OpenCV, PyG or other third-party software beyond the licences provided by their respective owners.
+
+Organizations interested in licensing or acquiring the technology can contact [Tuomas Pietilä](mailto:tuomas.pietila@synrex.fi) or open a non-confidential [commercial advisory request](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/issues/new?template=commercial-advisory.yml).
+
 ## Where commercial advisory fits
 
 Commercial advisory is appropriate when you need help turning a promising build into a usable deployment, for example:
@@ -37,6 +47,7 @@ Commercial advisory is appropriate when you need help turning a promising build 
 - **custom board bring-up** — carrier-board or platform-specific validation, BSP/runtime integration and hardware-dependent troubleshooting;
 - **model porting** — moving an existing model or pipeline onto a Jetson target and proving the relevant CUDA/application path;
 - **Custom Wheel Foundry** — requested AGX Orin / Orin Nano wheels for a specified dependency and software stack;
+- **foundry software licensing** — commercial licensing of SynRex's proprietary Custom Wheel Foundry platform;
 - **missing wheel / dependency enablement** — ARM64/CUDA/Python ports for exact target combinations;
 - **private wheelhouses** — customer-specific artifact sets, source locks, hashes and installation manifests;
 - **qualification** — physical HIL tests, import-order/runtime collision checks, numerical or application parity and performance evidence;
