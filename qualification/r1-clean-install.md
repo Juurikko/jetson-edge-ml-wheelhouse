@@ -99,6 +99,28 @@ af463e20d059236da523e748fce571d640210191f7eb2549a4e907cb8907abfa
 bytes 11788
 ```
 
+## Off-device preservation
+
+The final manifest, clean-install receipt and evidence bundle were copied off the AGX to the operator workstation and independently re-hashed:
+
+```text
+R1_FINAL_EVIDENCE_OFF_DEVICE=PASS
+```
+
+Verified identities:
+
+```text
+FINAL_RELEASE_MANIFEST_R1.json
+5477ecb13707194157a56b0d68ee4bb0af15b1c63ce226addd5decec101c3ec2
+
+CLEAN_INSTALL_RECEIPT_R1.json
+ab85d9c77a1230279dedec168b333f73416d3921bb691831af87a1bb0d4075ea
+
+SYNREX_R1_CLEAN_INSTALL_EVIDENCE.tar.gz
+11788 bytes
+af463e20d059236da523e748fce571d640210191f7eb2549a4e907cb8907abfa
+```
+
 ## Claim boundary
 
 This gate qualifies the exact eight-wheel candidate set as an installable combined environment on the frozen AGX target. It is not a blanket compatibility claim for other BSPs, Python versions, CUDA versions, Jetson models or package combinations.
