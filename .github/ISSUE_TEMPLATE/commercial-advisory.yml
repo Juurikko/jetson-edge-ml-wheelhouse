@@ -1,5 +1,5 @@
 name: Commercial advisory request
-description: Non-confidential scoping for Custom Wheel Foundry builds, deployment help, board bring-up, model porting or adjacent Jetson enablement.
+description: Non-confidential scoping for local deterministic Custom Wheel Foundry builds/HIL qualification, software licensing, deployment help, board bring-up or model porting.
 title: "[Commercial advisory] "
 body:
   - type: markdown
@@ -15,7 +15,7 @@ body:
         - Custom board bring-up
         - Model porting
         - Custom Wheel Foundry — AGX Orin / Orin Nano
-        - License SynRex Custom Wheel Foundry software
+        - License Custom Wheel Foundry — local build & HIL platform
         - Missing ARM64/CUDA wheel
         - Private wheelhouse / reproducible build
         - Physical HIL qualification
