@@ -29,6 +29,7 @@ REQUIRED = [
     ROOT / "docs/release-assets.md",
     ROOT / "qualification/qualification-levels.md",
     ROOT / "qualification/pointrope-public-release-r1.md",
+    ROOT / "qualification/cumm-public-release-r1.md",
     TARGET,
 ]
 
@@ -335,6 +336,25 @@ def verify_pointrope_receipt(manifest: dict) -> None:
     print("pointrope_receipt=PASS")
 
 
+def verify_cumm_receipt(manifest: dict) -> None:
+    cumm = next(x for x in manifest["artifacts"] if x["id"] == "cumm")
+    require(cumm["status"] == "release_candidate", "cumm not release_candidate")
+    content = (ROOT / "qualification/cumm-public-release-r1.md").read_text(
+        encoding="utf-8"
+    )
+    require(cumm["filename"] in content, "cumm qualification missing filename")
+    require(cumm["sha256"] in content, "cumm qualification missing SHA-256")
+    require(
+        "CUMM_PHYSICAL_TENSORVIEW_SMOKE=PASS" in content,
+        "cumm physical TensorView PASS marker missing",
+    )
+    require(
+        "SPCONV_COMPATIBILITY_CUDA_SMOKE=PASS" in content,
+        "cumm/spconv compatibility PASS marker missing",
+    )
+    print("cumm_receipt=PASS")
+
+
 def main() -> int:
     try:
         verify_required_files()
@@ -345,6 +365,7 @@ def main() -> int:
         verify_no_binary_payloads(files)
         verify_redaction(files)
         verify_pointrope_receipt(manifest)
+        verify_cumm_receipt(manifest)
     except VerifyError as exc:
         print(f"REPOSITORY_INTEGRITY=FAIL: {exc}")
         return 1
