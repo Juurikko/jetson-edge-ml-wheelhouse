@@ -59,10 +59,11 @@
     },
     {
       "id": "open3d",
-      "accepted_internal_filename": "open3d-0.20.0+cu132sm87-cp312-cp312-linux_aarch64.whl",
-      "accepted_internal_sha256": "1cbde25126bef42ffbe9446ec68cc88e090eeddf3ac5c9980c6c637f3857efe2",
+      "filename": "open3d-0.20.0+cu132sm87-1synrexrelease1-cp312-cp312-linux_aarch64.whl",
+      "sha256": "fae18d4ec2f4f9ebf9d8ac98da73291d6a444e2d3a047a5d1ebc950f47b3b38a",
       "source_commit": "b6c5e196384ad71e75b6e6f9c5da22d046221f1d",
-      "status": "release_pending_rebuild"
+      "status": "release_candidate",
+      "qualification": "accepted computational ELF bytes preserved; target runtimes externalized; CuTeDSL notice provenance closed; full physical AGX CUDA/geometry/Torch qualification PASS"
     }
   ]
 }
