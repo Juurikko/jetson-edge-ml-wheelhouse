@@ -157,6 +157,9 @@ def verify_public_positioning() -> None:
         "custom board bring-up commercial scope missing",
     )
     require("model porting" in readme.lower(), "model porting commercial scope missing")
+    require("custom wheel foundry" in readme.lower(), "Custom Wheel Foundry positioning missing")
+    require("agx orin" in readme.lower(), "AGX Orin foundry scope missing")
+    require("orin nano" in readme.lower(), "Orin Nano foundry scope missing")
     require(
         "https://www.linkedin.com/in/tuomas-pietila/" in readme,
         "engineering lead LinkedIn contact missing from README",
