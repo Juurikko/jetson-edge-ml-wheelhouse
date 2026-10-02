@@ -8,7 +8,11 @@ It is **not** intended to turn every adjacent Jetson configuration into a commun
 
 ## SynRex Custom Wheel Foundry
 
-SynRex offers **request-driven custom wheel builds for Jetson AGX Orin and Jetson Orin Nano**.
+SynRex offers **request-driven custom wheel builds for Jetson AGX Orin and Jetson Orin Nano** using the proprietary **SynRex Custom Wheel Foundry**.
+
+The foundry is a **100% locally operable, deterministic build, hardware-in-the-loop qualification and release-engineering platform**. Its core workflows can run entirely on infrastructure controlled by SynRex or the licensee: build orchestration, dependency closure, artifact inspection, target verification, physical-device HIL qualification, fail-closed acceptance and evidence generation do not require a proprietary SynRex cloud/SaaS control plane.
+
+External source repositories, package mirrors, vendor downloads or CI workers can be used when desired, but they are treated as explicit, versioned and hash-verified inputs. They are not the proprietary execution/control plane of the foundry.
 
 The requested target is defined before work begins. A target contract can include:
 
@@ -25,15 +29,17 @@ Depending on scope, the deliverable can include the resulting wheel(s), source a
 
 This does **not** mean every combination is already supported. The public repository qualifies only the explicitly documented targets; a custom configuration becomes a qualified SynRex deliverable only after its own agreed evidence gates pass.
 
+**Build success is not qualification.** Qualified candidates are hardware-in-the-loop tested on the intended physical Jetson target at the agreed qualification level. Depending on scope, the gates can cover native-library/ELF checks, real CUDA execution, package and import-order interoperability, fresh offline installation, numerical parity, real model/application execution, performance and release-level evidence.
+
 Typical requests include a missing wheel for a new JetPack/Python combination, rebuilding a CUDA extension against a particular PyTorch stack, or producing a private mutually compatible wheel set for an application.
 
 [Open a Custom Wheel Foundry / commercial advisory request](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/issues/new?template=commercial-advisory.yml).
 
 ## Custom Wheel Foundry software licensing
 
-The **proprietary SynRex Custom Wheel Foundry software platform used to build and qualify the wheel artifacts demonstrated in this repository is available for commercial licensing**.
+The **proprietary SynRex Custom Wheel Foundry software platform used to build and HIL-qualify the wheel artifacts demonstrated in this repository is available for commercial licensing**.
 
-This is separate from commissioning SynRex to build a particular wheel. Licensing can be discussed for organizations that want the foundry capability in their own engineering workflow, infrastructure or product-development environment. Commercial terms, deployment model, permitted use, deliverables and maintenance scope are agreed for the specific engagement.
+This is separate from commissioning SynRex to build a particular wheel. Licensing is intended for organizations that want the **fully local deterministic foundry capability in their own engineering workflow**, connected to their own build infrastructure and physical Jetson HIL targets. Commercial terms, deployment model, permitted use, deliverables and maintenance scope are agreed for the specific engagement.
 
 The SynRex licence applies only to SynRex proprietary technology. It does not grant rights to CUDA, PyTorch, Open3D, OpenCV, PyG or other third-party software beyond the licences provided by their respective owners.
 
