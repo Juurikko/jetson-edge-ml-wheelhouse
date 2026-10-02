@@ -1,0 +1,95 @@
+{
+  "schema": "synrex.jetson_edge_ml_wheelhouse.publication_record.v1",
+  "target_id": "agx-orin-r39.2.1-cu13.2-py312-sm87",
+  "release_id": 402213618,
+  "tag_name": "agx-orin-r39.2.1-cu13.2-py312-sm87-r1",
+  "release_url": "https://github.com/Juurikko/jetson-edge-ml-wheelhouse/releases/tag/agx-orin-r39.2.1-cu13.2-py312-sm87-r1",
+  "release_commit_sha": "41f9887a4b5b94d07603a9aa09452767a0870624",
+  "published_at": "2026-10-02T23:40:32Z",
+  "asset_count": 15,
+  "wheel_count": 8,
+  "latest_release_at_publication": true,
+  "github_release_state": "published",
+  "draft_roundtrip_status": "PASS",
+  "draft_roundtrip_receipt_sha256": "da43a52caf950f5248f08c7f2f1293ce0919b6f79d67357b0ba30be47a580c55",
+  "local_publication_receipt_sha256": "6b540a94342c654c23a74599142cf3391db70c51f8cc588b572a224440196291",
+  "clean_install_receipt_sha256": "ab85d9c77a1230279dedec168b333f73416d3921bb691831af87a1bb0d4075ea",
+  "agx_generated_final_release_manifest_sha256": "5477ecb13707194157a56b0d68ee4bb0af15b1c63ce226addd5decec101c3ec2",
+  "assets": [
+    {
+      "filename": "CLEAN_INSTALL_RECEIPT_R1.json",
+      "bytes": 3650,
+      "sha256": "ab85d9c77a1230279dedec168b333f73416d3921bb691831af87a1bb0d4075ea"
+    },
+    {
+      "filename": "FINAL_RELEASE_MANIFEST_R1.json",
+      "bytes": 2768,
+      "sha256": "5477ecb13707194157a56b0d68ee4bb0af15b1c63ce226addd5decec101c3ec2"
+    },
+    {
+      "filename": "RELEASE_ASSETS_R1.json",
+      "bytes": 2862,
+      "sha256": "ed4459d92691783d1c92c42a9052030dbbbe13cc5068f7bd995dbc4c2103b5f6"
+    },
+    {
+      "filename": "RELEASE_README_R1.txt",
+      "bytes": 965,
+      "sha256": "5b8cc7e8b4e9f249aef5d74aada2bf28442972e0e2bd25275d202caf79bfcb31"
+    },
+    {
+      "filename": "SHA256SUMS_R1.txt",
+      "bytes": 1702,
+      "sha256": "609bd5063c0f8db304d164ce9d777263a42fe6b1abcf6ce02c8d3a8e4af27d9d"
+    },
+    {
+      "filename": "SYNREX_AGX_ORIN_R1_8_WHEEL_BUNDLE.tar.gz",
+      "bytes": 511233267,
+      "sha256": "7822dc319af66b02b5fb4722707aad6c0f588f3eea22a50d2887288ee933f5d3"
+    },
+    {
+      "filename": "SYNREX_R1_CLEAN_INSTALL_EVIDENCE.tar.gz",
+      "bytes": 11788,
+      "sha256": "af463e20d059236da523e748fce571d640210191f7eb2549a4e907cb8907abfa"
+    },
+    {
+      "filename": "cumm_cu132-0.8.2-2agxrelease1-cp312-cp312-linux_aarch64.whl",
+      "bytes": 2657682,
+      "sha256": "c3e3ae935079638dc255e3b1a923582787ac2220c8f1f98ab9b717121131c5d9"
+    },
+    {
+      "filename": "open3d-0.20.0+cu132sm87-1synrexrelease1-cp312-cp312-linux_aarch64.whl",
+      "bytes": 447587045,
+      "sha256": "fae18d4ec2f4f9ebf9d8ac98da73291d6a444e2d3a047a5d1ebc950f47b3b38a"
+    },
+    {
+      "filename": "opencv_contrib_python_cuda_synrex-4.14.0+cu132sm87-2synrexci0-cp312-cp312-linux_aarch64.whl",
+      "bytes": 40889507,
+      "sha256": "a994978776cb7c24eee3108da4a18431fcd5efd0604d852675ee2d25effbb8f1"
+    },
+    {
+      "filename": "spconv_cu132-2.3.8-1agxlocal0-cp312-cp312-linux_aarch64.whl",
+      "bytes": 12181220,
+      "sha256": "4d473deb40425d018fc0198100838ba6cccc68f8fcdbb146216e4aedd17754b9"
+    },
+    {
+      "filename": "synrex_pointrope_cu132_sm87-0.0.0+pt214cu132sm87.2-cp312-cp312-linux_aarch64.whl",
+      "bytes": 3035249,
+      "sha256": "273fe321b79e51dd19b2c96f12080d4f945de58c13be51082428f61c64ceab1b"
+    },
+    {
+      "filename": "torch_cluster-1.6.3+pt214cu132sm87-1agxlocal0-cp312-cp312-linux_aarch64.whl",
+      "bytes": 2081515,
+      "sha256": "abed65ec74fb796cfd4c7b7d510fc1e8c49ce9a4f4202fd5e98b708fee755a8c"
+    },
+    {
+      "filename": "torch_scatter-2.1.2+pt214cu132sm87-1agxlocal0-cp312-cp312-linux_aarch64.whl",
+      "bytes": 2675815,
+      "sha256": "04086e77c00ebd10a5ffdea865582bcb9940ec251d74fe7cdefad095da0ff00d"
+    },
+    {
+      "filename": "torch_sparse-0.6.18+pt214cu132sm87-1agxlocal0-cp312-cp312-linux_aarch64.whl",
+      "bytes": 3118318,
+      "sha256": "6462630ebbbf3d0f7c854ee79fe213dbe968c8327f9f17b3672d73be3396e6d2"
+    }
+  ]
+}
