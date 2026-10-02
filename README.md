@@ -2,7 +2,7 @@
 
 Physically qualified ARM64/SM87 CUDA wheels, exact target locks, build recipes, and reproducible Jetson edge-ML evidence.
 
-> **Status:** repository bootstrap in progress. No binary release is published yet.
+> **Status:** eight-wheel R1 candidate set qualified by exact clean-install on the physical AGX Orin. No binary release is published yet.
 
 ## Qualified target
 
@@ -51,7 +51,7 @@ A wheel is not called “supported” here merely because it built. Each artifac
 | cumm | release candidate | Apache-2.0 metadata corrected; physical TensorView + spconv compatibility PASS |
 | Open3D 0.20 CUDA | release candidate | computational ELF bytes preserved; full physical CUDA/geometry/Torch requalification PASS |
 
-Exact hashes and qualification boundaries are documented in [wheels/README.md](wheels/README.md).
+Exact hashes and qualification boundaries are documented in [wheels/README.md](wheels/README.md). The combined eight-wheel set also passed the [R1 exact clean-install qualification](qualification/r1-clean-install.md).
 
 ## Qualification levels
 
