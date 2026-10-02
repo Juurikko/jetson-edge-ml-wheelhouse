@@ -161,6 +161,14 @@ def verify_public_positioning() -> None:
     require("agx orin" in readme.lower(), "AGX Orin foundry scope missing")
     require("orin nano" in readme.lower(), "Orin Nano foundry scope missing")
     require(
+        "proprietary synrex custom wheel foundry software platform" in readme.lower(),
+        "proprietary foundry software positioning missing",
+    )
+    require(
+        "commercial licensing" in readme.lower(),
+        "foundry software licensing offer missing",
+    )
+    require(
         "https://www.linkedin.com/in/tuomas-pietila/" in readme,
         "engineering lead LinkedIn contact missing from README",
     )
