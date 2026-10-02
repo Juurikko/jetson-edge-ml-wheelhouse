@@ -1,8 +1,10 @@
 # Jetson AGX Orin R39.2.1 / CUDA 13.2 / Python 3.12 / SM87 Wheelhouse
 
-Physically qualified ARM64/SM87 CUDA wheels, exact target locks, build recipes, and reproducible Jetson edge-ML evidence.
+Physically qualified ARM64/SM87 CUDA wheels, exact target locks, build recipes, and reproducible Jetson edge-ML evidence — engineered and qualified by **SynRex Oy**.
 
 > **Status:** eight-wheel R1 candidate set qualified by exact clean-install on the physical AGX Orin. No binary release is published yet.
+>
+> **Need this on a different target?** Deployment help, custom board bring-up and model porting are offered through [commercial advisory](COMMERCIAL.md). This public repository is a self-service reference and qualification showcase, not a general-purpose free Jetson support service.
 
 ## Qualified target
 
@@ -65,6 +67,22 @@ Exact hashes and qualification boundaries are documented in [wheels/README.md](w
 
 See [qualification/qualification-levels.md](qualification/qualification-levels.md).
 
+## Commercial advisory
+
+The public wheelhouse intentionally supports a very narrow, frozen target. SynRex offers fixed-scope commercial advisory and engineering for adjacent or private deployments, especially where the missing piece is not merely compiling code but making the complete stack defensible on real hardware.
+
+Typical engagements include:
+
+- deployment help for production Jetson systems;
+- custom board bring-up and BSP / CUDA / Python stack validation;
+- model porting and application-level qualification;
+- missing ARM64/CUDA wheel ports and private wheelhouses;
+- CI-built versus native-device rebuild comparison;
+- hardware-in-the-loop qualification and release evidence;
+- LiDAR, robotics, vision and multimodal edge-ML integration.
+
+Use the [commercial advisory request](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/issues/new?template=commercial-advisory.yml) for non-confidential initial scoping. See [COMMERCIAL.md](COMMERCIAL.md).
+
 ## Installation
 
 Binary installation instructions will be published with the first GitHub Release. Until then, this repository is documentation/manifest-first and intentionally does not publish an install command pointing at unreleased artifacts.
@@ -97,6 +115,12 @@ This repository indexes artifacts derived from multiple upstream projects with d
 Each release asset will carry its own source, licence/notice and redistribution record. Vendor runtimes such as CUDA/cuDNN/NPP, PyTorch, FFmpeg/GStreamer and NVIDIA cuSPARSELt are treated separately and are not automatically rehosted.
 
 See [NOTICE.md](NOTICE.md), the [R1 notice index](notices/README.md), and the [release asset policy](docs/release-assets.md).
+
+## Support boundary
+
+Public issues are for reproducible defects in the **exact published artifacts on the documented target**. The project does not commit to free troubleshooting for different Jetson models, BSP/CUDA/Python combinations, custom carrier boards, deployment environments or private models.
+
+Deployment assistance, custom board bring-up and model porting are handled through commercial advisory. See [SUPPORT.md](SUPPORT.md).
 
 ## Disclaimer
 
