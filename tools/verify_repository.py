@@ -392,6 +392,10 @@ def verify_clean_install_receipt() -> None:
         in content,
         "final release manifest hash missing from clean-install record",
     )
+    require(
+        "R1_FINAL_EVIDENCE_OFF_DEVICE=PASS" in content,
+        "off-device release evidence PASS marker missing",
+    )
 
     receipt = load_json(ROOT / "manifests/release-r1-freeze-receipt.json")
     require(
