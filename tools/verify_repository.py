@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TARGET = ROOT / "targets/agx-orin-r39.2.1-cu13.2-py312-sm87/target-contract.json"
 CANDIDATES = ROOT / "manifests/release-r1-candidates.json"
 SOURCE_LOCKS = ROOT / "provenance/source-locks.json"
+PUBLICATION = ROOT / "manifests/release-r1-publication.json"
 
 REQUIRED = [
     ROOT / "README.md",
@@ -35,6 +36,7 @@ REQUIRED = [
     ROOT / "qualification/open3d-public-release-r1.md",
     ROOT / "qualification/r1-clean-install.md",
     ROOT / "manifests/release-r1-freeze-receipt.json",
+    PUBLICATION,
     ROOT / ".github/ISSUE_TEMPLATE/commercial-advisory.yml",
     ROOT / ".github/ISSUE_TEMPLATE/qualified-target-bug.yml",
     ROOT / ".github/ISSUE_TEMPLATE/config.yml",
@@ -228,10 +230,13 @@ def verify_manifest(target: dict) -> dict:
         == "agx-orin-r39.2.1-cu13.2-py312-sm87-r1",
         "planned release tag mismatch",
     )
-    require(manifest.get("release_created") is False, "bootstrap cannot claim release exists")
+    require(
+        manifest.get("release_created") is False,
+        "candidate snapshot must preserve pre-publication release_created=false",
+    )
     require(
         manifest.get("binary_assets_published") is False,
-        "bootstrap cannot claim binary assets are published",
+        "candidate snapshot must preserve pre-publication binary_assets_published=false",
     )
 
     artifacts = manifest.get("artifacts")
@@ -455,12 +460,179 @@ def verify_clean_install_receipt() -> None:
     bundle = receipt.get("evidence_bundle", {})
     validate_sha256(bundle.get("sha256"), "clean-install evidence bundle sha256")
     require(bundle.get("bytes") == 11788, "clean-install evidence bundle size mismatch")
-    require(receipt.get("release_created") is False, "freeze receipt cannot claim release exists")
+    require(
+        receipt.get("release_created") is False,
+        "freeze receipt must preserve pre-publication release_created=false",
+    )
     require(
         receipt.get("binary_assets_published") is False,
-        "freeze receipt cannot claim binary assets are published",
+        "freeze receipt must preserve pre-publication binary_assets_published=false",
     )
     print("clean_install_receipt=PASS")
+
+
+def verify_publication_record(manifest: dict) -> None:
+    record = load_json(PUBLICATION)
+
+    require(
+        record.get("schema")
+        == "synrex.jetson_edge_ml_wheelhouse.publication_record.v1",
+        "publication record schema mismatch",
+    )
+    require(
+        record.get("target_id") == manifest["target_id"],
+        "publication target mismatch",
+    )
+    require(record.get("release_id") == 402213618, "publication release ID mismatch")
+    require(
+        record.get("tag_name")
+        == "agx-orin-r39.2.1-cu13.2-py312-sm87-r1",
+        "publication tag mismatch",
+    )
+    require(
+        record.get("release_url")
+        == "https://github.com/Juurikko/jetson-edge-ml-wheelhouse/"
+        "releases/tag/agx-orin-r39.2.1-cu13.2-py312-sm87-r1",
+        "publication URL mismatch",
+    )
+    validate_git_sha(
+        record.get("release_commit_sha"),
+        "publication release_commit_sha",
+    )
+    require(
+        record.get("release_commit_sha")
+        == "41f9887a4b5b94d07603a9aa09452767a0870624",
+        "publication commit mismatch",
+    )
+    require(
+        record.get("published_at") == "2026-10-02T23:40:32Z",
+        "publication timestamp mismatch",
+    )
+    require(record.get("asset_count") == 15, "publication asset count mismatch")
+    require(record.get("wheel_count") == 8, "publication wheel count mismatch")
+    require(
+        record.get("latest_release_at_publication") is True,
+        "publication latest-release marker missing",
+    )
+    require(
+        record.get("github_release_state") == "published",
+        "publication state is not published",
+    )
+    require(
+        record.get("draft_roundtrip_status") == "PASS",
+        "draft round-trip status is not PASS",
+    )
+
+    validate_sha256(
+        record.get("draft_roundtrip_receipt_sha256"),
+        "draft_roundtrip_receipt_sha256",
+    )
+    require(
+        record.get("draft_roundtrip_receipt_sha256")
+        == "da43a52caf950f5248f08c7f2f1293ce0919b6f79d67357b0ba30be47a580c55",
+        "draft round-trip receipt hash mismatch",
+    )
+    validate_sha256(
+        record.get("local_publication_receipt_sha256"),
+        "local_publication_receipt_sha256",
+    )
+    require(
+        record.get("local_publication_receipt_sha256")
+        == "6b540a94342c654c23a74599142cf3391db70c51f8cc588b572a224440196291",
+        "publication receipt hash mismatch",
+    )
+    require(
+        record.get("clean_install_receipt_sha256")
+        == "ab85d9c77a1230279dedec168b333f73416d3921bb691831af87a1bb0d4075ea",
+        "publication clean-install receipt hash mismatch",
+    )
+    require(
+        record.get("agx_generated_final_release_manifest_sha256")
+        == "5477ecb13707194157a56b0d68ee4bb0af15b1c63ce226addd5decec101c3ec2",
+        "publication final release manifest hash mismatch",
+    )
+
+    assets = record.get("assets")
+    require(
+        isinstance(assets, list) and len(assets) == 15,
+        "publication assets must contain exactly 15 entries",
+    )
+
+    by_name = {}
+    for i, asset in enumerate(assets):
+        label = f"publication.assets[{i}]"
+        filename = asset.get("filename")
+        validate_filename(filename, f"{label}.filename")
+        require(filename not in by_name, f"duplicate publication asset: {filename}")
+        require(
+            isinstance(asset.get("bytes"), int) and asset["bytes"] > 0,
+            f"{label}.bytes must be a positive integer",
+        )
+        validate_sha256(asset.get("sha256"), f"{label}.sha256")
+        by_name[filename] = asset
+
+    candidate_assets = {
+        artifact["filename"]: artifact["sha256"]
+        for artifact in manifest["artifacts"]
+        if artifact["status"] == "release_candidate"
+    }
+    require(len(candidate_assets) == 8, "publication candidate wheel count mismatch")
+
+    support_assets = {
+        "CLEAN_INSTALL_RECEIPT_R1.json": (
+            3650,
+            "ab85d9c77a1230279dedec168b333f73416d3921bb691831af87a1bb0d4075ea",
+        ),
+        "FINAL_RELEASE_MANIFEST_R1.json": (
+            2768,
+            "5477ecb13707194157a56b0d68ee4bb0af15b1c63ce226addd5decec101c3ec2",
+        ),
+        "RELEASE_ASSETS_R1.json": (
+            2862,
+            "ed4459d92691783d1c92c42a9052030dbbbe13cc5068f7bd995dbc4c2103b5f6",
+        ),
+        "RELEASE_README_R1.txt": (
+            965,
+            "5b8cc7e8b4e9f249aef5d74aada2bf28442972e0e2bd25275d202caf79bfcb31",
+        ),
+        "SHA256SUMS_R1.txt": (
+            1702,
+            "609bd5063c0f8db304d164ce9d777263a42fe6b1abcf6ce02c8d3a8e4af27d9d",
+        ),
+        "SYNREX_AGX_ORIN_R1_8_WHEEL_BUNDLE.tar.gz": (
+            511233267,
+            "7822dc319af66b02b5fb4722707aad6c0f588f3eea22a50d2887288ee933f5d3",
+        ),
+        "SYNREX_R1_CLEAN_INSTALL_EVIDENCE.tar.gz": (
+            11788,
+            "af463e20d059236da523e748fce571d640210191f7eb2549a4e907cb8907abfa",
+        ),
+    }
+
+    expected_names = set(candidate_assets) | set(support_assets)
+    require(
+        set(by_name) == expected_names,
+        "publication asset filename set mismatch",
+    )
+
+    for filename, expected_sha in candidate_assets.items():
+        require(
+            by_name[filename]["sha256"] == expected_sha,
+            f"published wheel hash mismatch: {filename}",
+        )
+
+    for filename, (expected_bytes, expected_sha) in support_assets.items():
+        asset = by_name[filename]
+        require(
+            asset["bytes"] == expected_bytes,
+            f"published support asset size mismatch: {filename}",
+        )
+        require(
+            asset["sha256"] == expected_sha,
+            f"published support asset hash mismatch: {filename}",
+        )
+
+    print("publication_record=PASS")
 
 
 def main() -> int:
@@ -477,6 +649,7 @@ def main() -> int:
         verify_cumm_receipt(manifest)
         verify_open3d_receipt(manifest)
         verify_clean_install_receipt()
+        verify_publication_record(manifest)
     except VerifyError as exc:
         print(f"REPOSITORY_INTEGRITY=FAIL: {exc}")
         return 1
