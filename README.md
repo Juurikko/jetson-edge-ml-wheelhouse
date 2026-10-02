@@ -49,7 +49,7 @@ A wheel is not called “supported” here merely because it built. Each artifac
 | native LitePT PointROPE | release candidate | Physical CUDA + C08 exact-parity requalification PASS |
 | OpenCV 4.14 CUDA | release candidate | AArch64/SM87 CUDA image + CUDA DNN physical PASS |
 | cumm | release candidate | Apache-2.0 metadata corrected; physical TensorView + spconv compatibility PASS |
-| Open3D 0.20 CUDA | release pending | release-friendly dependency-closure rebuild + full requalification |
+| Open3D 0.20 CUDA | release candidate | computational ELF bytes preserved; full physical CUDA/geometry/Torch requalification PASS |
 
 Exact hashes and qualification boundaries are documented in [wheels/README.md](wheels/README.md).
 
