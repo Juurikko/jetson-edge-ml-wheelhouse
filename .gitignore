@@ -1,0 +1,18 @@
+# Binary release assets belong in GitHub Releases, not Git history.
+*.whl
+*.so
+*.zip
+*.tar.gz
+*.tgz
+*.deb
+*.rpm
+*.ipk
+
+# Local build/test residue.
+build/
+dist/
+*.egg-info/
+__pycache__/
+.pytest_cache/
+.venv/
+venv/

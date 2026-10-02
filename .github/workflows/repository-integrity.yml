@@ -1,0 +1,27 @@
+name: repository-integrity
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify-public-metadata:
+    name: Verify public metadata
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Show verifier runtime
+        run: python3 --version
+
+      - name: Check whitespace
+        run: git diff --check
+
+      - name: Verify target, manifests, provenance and redaction
+        run: python3 tools/verify_repository.py

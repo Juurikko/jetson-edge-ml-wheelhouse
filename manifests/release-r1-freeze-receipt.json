@@ -1,0 +1,16 @@
+{
+  "schema": "synrex.jetson_edge_ml_wheelhouse.release_freeze_receipt.v1",
+  "planned_release_tag": "agx-orin-r39.2.1-cu13.2-py312-sm87-r1",
+  "target_id": "agx-orin-r39.2.1-cu13.2-py312-sm87",
+  "release_candidate_count": 8,
+  "clean_install_status": "PASS",
+  "clean_install_receipt_sha256": "ab85d9c77a1230279dedec168b333f73416d3921bb691831af87a1bb0d4075ea",
+  "agx_generated_final_release_manifest_sha256": "5477ecb13707194157a56b0d68ee4bb0af15b1c63ce226addd5decec101c3ec2",
+  "evidence_bundle": {
+    "filename": "SYNREX_R1_CLEAN_INSTALL_EVIDENCE.tar.gz",
+    "bytes": 11788,
+    "sha256": "af463e20d059236da523e748fce571d640210191f7eb2549a4e907cb8907abfa"
+  },
+  "release_created": false,
+  "binary_assets_published": false
+}

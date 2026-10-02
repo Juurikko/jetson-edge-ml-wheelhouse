@@ -1,0 +1,53 @@
+name: Qualified-target bug
+description: Report a reproducible defect in an exact published artifact on the documented qualified target.
+title: "[Qualified target bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template is for defects that reproduce on the repository's exact documented target. Requests for deployment help, custom board bring-up, model porting or another BSP/CUDA/Python target belong under Commercial advisory.
+  - type: input
+    id: wheel
+    attributes:
+      label: Exact wheel filename
+    validations:
+      required: true
+  - type: input
+    id: sha
+    attributes:
+      label: Wheel SHA-256
+    validations:
+      required: true
+  - type: textarea
+    id: target
+    attributes:
+      label: Target contract
+      description: Include Jetson model, L4T/BSP, CUDA, Python and relevant framework versions.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed result
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result and qualification claim
+      description: Point to the repository statement that you believe the behavior contradicts.
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope confirmation
+      options:
+        - label: I reproduced this on the documented qualified target rather than an adjacent Jetson/BSP/CUDA/Python environment.
+          required: true

@@ -1,0 +1,69 @@
+{
+  "schema": "synrex.jetson_edge_ml_wheelhouse.release_candidates.v1",
+  "planned_release_tag": "agx-orin-r39.2.1-cu13.2-py312-sm87-r1",
+  "target_id": "agx-orin-r39.2.1-cu13.2-py312-sm87",
+  "release_created": false,
+  "binary_assets_published": false,
+  "artifacts": [
+    {
+      "id": "torch-scatter",
+      "filename": "torch_scatter-2.1.2+pt214cu132sm87-1agxlocal0-cp312-cp312-linux_aarch64.whl",
+      "sha256": "04086e77c00ebd10a5ffdea865582bcb9940ec251d74fe7cdefad095da0ff00d",
+      "source_commit": "f514c10f920b5aeed2eb162092f0ad20d3edee52",
+      "status": "release_candidate"
+    },
+    {
+      "id": "torch-sparse",
+      "filename": "torch_sparse-0.6.18+pt214cu132sm87-1agxlocal0-cp312-cp312-linux_aarch64.whl",
+      "sha256": "6462630ebbbf3d0f7c854ee79fe213dbe968c8327f9f17b3672d73be3396e6d2",
+      "source_commit": "ef897d8a019771c0d93d6de2e4d3dda52e8faf62",
+      "status": "release_candidate"
+    },
+    {
+      "id": "torch-cluster",
+      "filename": "torch_cluster-1.6.3+pt214cu132sm87-1agxlocal0-cp312-cp312-linux_aarch64.whl",
+      "sha256": "abed65ec74fb796cfd4c7b7d510fc1e8c49ce9a4f4202fd5e98b708fee755a8c",
+      "source_commit": "e9a855c284b45edcbf0282cf70ac09bee0ce4e49",
+      "status": "release_candidate"
+    },
+    {
+      "id": "spconv",
+      "filename": "spconv_cu132-2.3.8-1agxlocal0-cp312-cp312-linux_aarch64.whl",
+      "sha256": "4d473deb40425d018fc0198100838ba6cccc68f8fcdbb146216e4aedd17754b9",
+      "source_commit": "263d6b47425ef843c82f997b12d8b714013d216c",
+      "status": "release_candidate"
+    },
+    {
+      "id": "pointrope",
+      "filename": "synrex_pointrope_cu132_sm87-0.0.0+pt214cu132sm87.2-cp312-cp312-linux_aarch64.whl",
+      "sha256": "273fe321b79e51dd19b2c96f12080d4f945de58c13be51082428f61c64ceab1b",
+      "source_commit": "436d04801c8151faebe66a1b2d368a9711e7e6aa",
+      "status": "release_candidate",
+      "qualification": "physical CUDA smoke + C08 A3 exact raw-ID parity PASS"
+    },
+    {
+      "id": "opencv",
+      "filename": "opencv_contrib_python_cuda_synrex-4.14.0+cu132sm87-2synrexci0-cp312-cp312-linux_aarch64.whl",
+      "sha256": "a994978776cb7c24eee3108da4a18431fcd5efd0604d852675ee2d25effbb8f1",
+      "source_commit": "0654a42e19215ef25b1d367d822f3c630447e7c7",
+      "additional_source_commit": "a8e9acd62cabd30419dba83007f2ac0d07de5e2c",
+      "status": "release_candidate"
+    },
+    {
+      "id": "cumm",
+      "filename": "cumm_cu132-0.8.2-2agxrelease1-cp312-cp312-linux_aarch64.whl",
+      "sha256": "c3e3ae935079638dc255e3b1a923582787ac2220c8f1f98ab9b717121131c5d9",
+      "source_commit": "4c77b38d1ab57d5d1c157adddf67dad93f3a446b",
+      "status": "release_candidate",
+      "qualification": "Apache-2.0 metadata audit + AArch64 ELF + physical TensorView CUDA copy + accepted spconv CUDA compatibility PASS"
+    },
+    {
+      "id": "open3d",
+      "filename": "open3d-0.20.0+cu132sm87-1synrexrelease1-cp312-cp312-linux_aarch64.whl",
+      "sha256": "fae18d4ec2f4f9ebf9d8ac98da73291d6a444e2d3a047a5d1ebc950f47b3b38a",
+      "source_commit": "b6c5e196384ad71e75b6e6f9c5da22d046221f1d",
+      "status": "release_candidate",
+      "qualification": "accepted computational ELF bytes preserved; target runtimes externalized; CuTeDSL notice provenance closed; full physical AGX CUDA/geometry/Torch qualification PASS"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "schema": "synrex.jetson_edge_ml_wheelhouse.source_locks.v1",
+  "target_id": "agx-orin-r39.2.1-cu13.2-py312-sm87",
+  "sources": [
+    {
+      "id": "torch-scatter",
+      "source_repository": "https://github.com/rusty1s/pytorch_scatter",
+      "source_commit": "f514c10f920b5aeed2eb162092f0ad20d3edee52",
+      "source_license": "MIT",
+      "license_blob_sha": "9ca2096e95ad76934bee6cf8afa1f4a6af79e5da",
+      "build_origin": "native AGX Orin"
+    },
+    {
+      "id": "torch-sparse",
+      "source_repository": "https://github.com/rusty1s/pytorch_sparse",
+      "source_commit": "ef897d8a019771c0d93d6de2e4d3dda52e8faf62",
+      "source_license": "MIT",
+      "license_blob_sha": "9ca2096e95ad76934bee6cf8afa1f4a6af79e5da",
+      "build_origin": "native AGX Orin"
+    },
+    {
+      "id": "torch-cluster",
+      "source_repository": "https://github.com/rusty1s/pytorch_cluster",
+      "source_commit": "e9a855c284b45edcbf0282cf70ac09bee0ce4e49",
+      "source_license": "MIT",
+      "license_blob_sha": "9ca2096e95ad76934bee6cf8afa1f4a6af79e5da",
+      "build_origin": "native AGX Orin"
+    },
+    {
+      "id": "spconv",
+      "source_repository": "https://github.com/traveller59/spconv",
+      "source_commit": "263d6b47425ef843c82f997b12d8b714013d216c",
+      "source_license": "Apache-2.0",
+      "license_blob_sha": "ba4614249756ed02b821c8d08a4f53f978f0d7e7",
+      "build_origin": "native AGX Orin"
+    },
+    {
+      "id": "pointrope",
+      "source_repository": "https://github.com/prs-eth/LitePT",
+      "source_component": "libs/pointrope",
+      "source_commit": "436d04801c8151faebe66a1b2d368a9711e7e6aa",
+      "source_license": "MIT",
+      "license_blob_sha": "5aac321452c3d215be933af6af802994ee74783d",
+      "build_origin": "native AGX Orin"
+    },
+    {
+      "id": "opencv",
+      "source_repository": "https://github.com/opencv/opencv",
+      "source_commit": "0654a42e19215ef25b1d367d822f3c630447e7c7",
+      "additional_sources": [
+        {
+          "source_repository": "https://github.com/opencv/opencv_contrib",
+          "source_commit": "a8e9acd62cabd30419dba83007f2ac0d07de5e2c"
+        }
+      ],
+      "source_license": "Apache-2.0",
+      "license_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+      "build_origin": "GitHub CI plus physical AGX qualification"
+    },
+    {
+      "id": "cumm",
+      "source_repository": "https://github.com/FindDefinition/cumm",
+      "source_commit": "4c77b38d1ab57d5d1c157adddf67dad93f3a446b",
+      "source_license": "Apache-2.0",
+      "license_blob_sha": "523885b4c8cbc42497cf1c67f28a6f5328887f81",
+      "build_origin": "native AGX Orin",
+      "note": "Frozen source LICENSE is Apache-2.0; stale upstream setup.py package metadata at this commit declares MIT and is corrected in the public rebuild."
+    },
+    {
+      "id": "open3d",
+      "source_repository": "https://github.com/isl-org/Open3D",
+      "source_commit": "b6c5e196384ad71e75b6e6f9c5da22d046221f1d",
+      "source_license": "MIT",
+      "license_blob_sha": "c3c3641b204724f8b1deabf68f689b46e3a2ce54",
+      "build_origin": "GitHub CI plus physical AGX qualification"
+    }
+  ]
+}
