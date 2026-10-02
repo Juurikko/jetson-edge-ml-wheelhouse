@@ -1,0 +1,60 @@
+name: Commercial advisory request
+description: Non-confidential initial scoping for deployment help, custom board bring-up, model porting or adjacent Jetson enablement.
+title: "[Commercial advisory] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a public issue. Share only non-confidential information. Commercial advisory is scoped separately and opening this issue does not create a support commitment or SLA.
+  - type: dropdown
+    id: engagement
+    attributes:
+      label: What do you need?
+      options:
+        - Deployment help
+        - Custom board bring-up
+        - Model porting
+        - Missing ARM64/CUDA wheel
+        - Private wheelhouse / reproducible build
+        - Physical HIL qualification
+        - Performance / application validation
+        - Other edge-ML advisory
+    validations:
+      required: true
+  - type: input
+    id: hardware
+    attributes:
+      label: Jetson / board / carrier
+      placeholder: "Example: AGX Orin 64 GB + custom carrier"
+    validations:
+      required: true
+  - type: input
+    id: stack
+    attributes:
+      label: BSP / CUDA / Python / framework
+      placeholder: "Example: L4T ..., CUDA ..., Python ..., PyTorch ..."
+    validations:
+      required: true
+  - type: textarea
+    id: blocker
+    attributes:
+      label: Current blocker and desired deliverable
+      description: Describe what does not work today and what a successful engagement should deliver.
+    validations:
+      required: true
+  - type: textarea
+    id: model
+    attributes:
+      label: Model or application context
+      description: Keep this high-level and non-confidential.
+  - type: input
+    id: timeframe
+    attributes:
+      label: Desired timeframe
+  - type: checkboxes
+    id: public
+    attributes:
+      label: Public-information confirmation
+      options:
+        - label: I confirm that this issue contains no credentials, proprietary source code, private datasets or other confidential material.
+          required: true
