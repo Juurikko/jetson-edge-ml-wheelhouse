@@ -74,6 +74,16 @@ Exact hashes and qualification boundaries are documented in [wheels/README.md](w
 
 See [qualification/qualification-levels.md](qualification/qualification-levels.md).
 
+## SynRex Custom Wheel Foundry
+
+The public R1 wheelhouse is one qualified reference configuration. **SynRex Custom Wheel Foundry** also builds requested ARM64/CUDA Python wheels for **Jetson AGX Orin and Jetson Orin Nano** against a customer-defined dependency/software stack.
+
+A custom request can pin the JetPack / Jetson Linux release, CUDA toolkit, Python ABI, PyTorch/framework version, upstream package revision, required native GPU architecture and optional features. Depending on scope, the deliverable can include exact source/dependency locks, wheel SHA-256 identities, build recipes, installation material and physical-device qualification evidence.
+
+Custom Wheel Foundry work is a commercial service, not an expansion of the free support matrix of this repository. A requested configuration is described as qualified only after its own target-specific evidence gates have passed.
+
+[Request a custom wheel build](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/issues/new?template=commercial-advisory.yml) · [Commercial advisory](COMMERCIAL.md) · [Tuomas Pietilä on LinkedIn](https://www.linkedin.com/in/tuomas-pietila/) · [tuomas.pietila@synrex.fi](mailto:tuomas.pietila@synrex.fi)
+
 ## Commercial advisory
 
 The public wheelhouse intentionally supports a very narrow, frozen target. SynRex offers fixed-scope commercial advisory and engineering for adjacent or private deployments, especially where the missing piece is not merely compiling code but making the complete stack defensible on real hardware.
@@ -83,6 +93,7 @@ Typical engagements include:
 - deployment help for production Jetson systems;
 - custom board bring-up and BSP / CUDA / Python stack validation;
 - model porting and application-level qualification;
+- **Custom Wheel Foundry builds for AGX Orin and Orin Nano at specified dependency/software stacks;**
 - missing ARM64/CUDA wheel ports and private wheelhouses;
 - CI-built versus native-device rebuild comparison;
 - hardware-in-the-loop qualification and release evidence;
