@@ -16,6 +16,8 @@ REQUIRED = [
     ROOT / "README.md",
     ROOT / "SUPPORTED_TARGETS.md",
     ROOT / "NOTICE.md",
+    ROOT / "COMMERCIAL.md",
+    ROOT / "SUPPORT.md",
     ROOT / "wheels/README.md",
     ROOT / "manifests/README.md",
     CANDIDATES,
@@ -33,6 +35,9 @@ REQUIRED = [
     ROOT / "qualification/open3d-public-release-r1.md",
     ROOT / "qualification/r1-clean-install.md",
     ROOT / "manifests/release-r1-freeze-receipt.json",
+    ROOT / ".github/ISSUE_TEMPLATE/commercial-advisory.yml",
+    ROOT / ".github/ISSUE_TEMPLATE/qualified-target-bug.yml",
+    ROOT / ".github/ISSUE_TEMPLATE/config.yml",
     TARGET,
 ]
 
@@ -141,6 +146,20 @@ def verify_required_files() -> None:
     print(f"required_files={len(REQUIRED)} PASS")
 
 
+def verify_public_positioning() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    first_line = readme.splitlines()[0]
+    require("JetPack 7.2.1" in first_line, "README title must name JetPack 7.2.1")
+    require("SynRex Oy" in readme, "README must identify SynRex Oy")
+    require("commercial advisory" in readme.lower(), "commercial advisory path missing")
+    require(
+        "custom board bring-up" in readme.lower(),
+        "custom board bring-up commercial scope missing",
+    )
+    require("model porting" in readme.lower(), "model porting commercial scope missing")
+    print("public_positioning=PASS")
+
+
 def verify_target() -> dict:
     target = load_json(TARGET)
     require(
@@ -160,6 +179,7 @@ def verify_target() -> dict:
     require(hw.get("cuda_arch") == "sm_87", "CUDA arch mismatch")
 
     os_data = target.get("os", {})
+    require(os_data.get("jetpack") == "7.2.1", "JetPack mismatch")
     require(os_data.get("l4t") == "R39.2.1", "L4T mismatch")
     require(os_data.get("kernel") == "6.8.12-1021-tegra", "kernel mismatch")
     require(os_data.get("glibc") == "2.39", "glibc mismatch")
@@ -427,6 +447,7 @@ def verify_clean_install_receipt() -> None:
 def main() -> int:
     try:
         verify_required_files()
+        verify_public_positioning()
         target = verify_target()
         manifest = verify_manifest(target)
         verify_source_locks(manifest)
