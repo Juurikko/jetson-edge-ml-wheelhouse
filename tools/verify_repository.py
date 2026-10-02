@@ -161,6 +161,10 @@ def verify_public_positioning() -> None:
         "https://www.linkedin.com/in/tuomas-pietila/" in readme,
         "engineering lead LinkedIn contact missing from README",
     )
+    require(
+        "tuomas.pietila@synrex.fi" in readme,
+        "SynRex commercial email contact missing from README",
+    )
     print("public_positioning=PASS")
 
 
