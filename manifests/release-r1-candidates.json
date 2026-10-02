@@ -51,10 +51,11 @@
     },
     {
       "id": "cumm",
-      "accepted_internal_filename": "cumm_cu132-0.8.2-1agxlocal0-cp312-cp312-linux_aarch64.whl",
-      "accepted_internal_sha256": "d0a2b7c1d3011b7cbe9707bbbbf3f3ec72e08b5d3437bab1fb7572ea0316e1bd",
+      "filename": "cumm_cu132-0.8.2-2agxrelease1-cp312-cp312-linux_aarch64.whl",
+      "sha256": "c3e3ae935079638dc255e3b1a923582787ac2220c8f1f98ab9b717121131c5d9",
       "source_commit": "4c77b38d1ab57d5d1c157adddf67dad93f3a446b",
-      "status": "release_pending_rebuild"
+      "status": "release_candidate",
+      "qualification": "Apache-2.0 metadata audit + AArch64 ELF + physical TensorView CUDA copy + accepted spconv CUDA compatibility PASS"
     },
     {
       "id": "open3d",
