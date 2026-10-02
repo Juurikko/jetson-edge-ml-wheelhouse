@@ -15,6 +15,7 @@ body:
         - Custom board bring-up
         - Model porting
         - Custom Wheel Foundry — AGX Orin / Orin Nano
+        - License SynRex Custom Wheel Foundry software
         - Missing ARM64/CUDA wheel
         - Private wheelhouse / reproducible build
         - Physical HIL qualification
