@@ -2,7 +2,7 @@
 
 Physically qualified ARM64/SM87 CUDA wheels, exact target locks, build recipes, and reproducible Jetson edge-ML evidence — engineered and qualified by **SynRex Oy**.
 
-**Engineering lead & commercial contact:** [Tuomas Pietilä on LinkedIn](https://www.linkedin.com/in/tuomas-pietila/)
+**Engineering lead & commercial contact:** Tuomas Pietilä, SynRex Oy · [LinkedIn](https://www.linkedin.com/in/tuomas-pietila/) · [tuomas.pietila@synrex.fi](mailto:tuomas.pietila@synrex.fi)
 
 > **Target:** NVIDIA JetPack 7.2.1 / Jetson Linux (L4T) R39.2.1 on Jetson AGX Orin 64 GB.
 >
@@ -88,7 +88,7 @@ Typical engagements include:
 - hardware-in-the-loop qualification and release evidence;
 - LiDAR, robotics, vision and multimodal edge-ML integration.
 
-Use the [commercial advisory request](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/issues/new?template=commercial-advisory.yml) for non-confidential initial scoping, or connect with [Tuomas Pietilä on LinkedIn](https://www.linkedin.com/in/tuomas-pietila/). See [COMMERCIAL.md](COMMERCIAL.md).
+Use the [commercial advisory request](https://github.com/Juurikko/jetson-edge-ml-wheelhouse/issues/new?template=commercial-advisory.yml) for non-confidential initial scoping, or contact Tuomas Pietilä via [LinkedIn](https://www.linkedin.com/in/tuomas-pietila/) or [tuomas.pietila@synrex.fi](mailto:tuomas.pietila@synrex.fi). See [COMMERCIAL.md](COMMERCIAL.md).
 
 ## Installation
 
