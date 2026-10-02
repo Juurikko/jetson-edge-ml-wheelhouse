@@ -1,12 +1,16 @@
 # Release manifests
 
-This directory contains machine-readable release planning and lock data.
+This directory contains machine-readable planning, freeze and publication records.
 
-## Current manifest
+## R1 records
 
-`release-r1-candidates.json` records the intended R1 artifact set and each artifact's current release state.
+`release-r1-candidates.json` is the pre-publication candidate snapshot. It records the eight exact wheel candidates that passed qualification before the public GitHub Release was created.
 
-The candidate manifest is deliberately separate from the eventual immutable release manifest. While an artifact is being rebuilt or requalified, it remains `release_pending_rebuild`. Only exact qualified bytes may move to `release_candidate`.
+`release-r1-freeze-receipt.json` is the pre-publication freeze receipt. Its `release_created=false` and `binary_assets_published=false` fields are intentionally preserved because they describe the state at the freeze gate.
+
+`release-r1-publication.json` is the post-publication record. It binds the public GitHub Release ID, tag, reviewed commit, publication timestamp, exact 15-asset set, draft round-trip verification receipt and final publication receipt.
+
+These records are complementary rather than replacements for one another.
 
 ## Identity rules
 
@@ -15,4 +19,6 @@ The candidate manifest is deliberately separate from the eventual immutable rele
 - source identity uses full 40-character Git commit SHAs;
 - wheel binaries live in GitHub Releases, not Git history;
 - vendor/base dependencies may be hash-pinned without being rehosted;
-- the final release manifest must be generated from the exact approved asset set, not inferred from package versions.
+- the final release manifest must be generated from the exact approved asset set, not inferred from package versions;
+- pre-publication freeze records remain immutable after publication;
+- publication state is recorded separately so historical freeze evidence is not rewritten.
