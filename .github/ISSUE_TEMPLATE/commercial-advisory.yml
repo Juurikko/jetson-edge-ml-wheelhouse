@@ -1,5 +1,5 @@
 name: Commercial advisory request
-description: Non-confidential initial scoping for deployment help, custom board bring-up, model porting or adjacent Jetson enablement.
+description: Non-confidential scoping for Custom Wheel Foundry builds, deployment help, board bring-up, model porting or adjacent Jetson enablement.
 title: "[Commercial advisory] "
 body:
   - type: markdown
@@ -14,6 +14,7 @@ body:
         - Deployment help
         - Custom board bring-up
         - Model porting
+        - Custom Wheel Foundry — AGX Orin / Orin Nano
         - Missing ARM64/CUDA wheel
         - Private wheelhouse / reproducible build
         - Physical HIL qualification
@@ -31,8 +32,9 @@ body:
   - type: input
     id: stack
     attributes:
-      label: BSP / CUDA / Python / framework
-      placeholder: "Example: L4T ..., CUDA ..., Python ..., PyTorch ..."
+      label: Requested dependency / software stack
+      description: Pin the environment as precisely as you can.
+      placeholder: "Example: JetPack ..., L4T ..., CUDA ..., Python ..., PyTorch ..., package/version ..."
     validations:
       required: true
   - type: textarea
