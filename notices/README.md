@@ -10,7 +10,7 @@ This index records the release-hygiene state established by the public-release a
 | spconv | Apache-2.0 | embedded Apache-2.0 licence; release candidate |
 | PointROPE | MIT via LitePT | public `.2` rebuild embeds upstream MIT licence/build notice; release candidate |
 | OpenCV + contrib | Apache-2.0 plus third-party components | exact wheel carries its third-party notice tree; external multimedia/CUDA runtimes documented separately |
-| cumm | Apache-2.0 | public rebuild corrects stale package metadata before release |
+| cumm | Apache-2.0 | public `2agxrelease1` rebuild corrects stale package metadata; exact wheel physically qualified; release candidate |
 | Open3D | MIT plus substantial third-party closure | release-friendly replacement and notice closure pending |
 
 ## External runtimes
