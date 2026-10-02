@@ -68,6 +68,16 @@ Scope: corrected Apache-2.0 metadata PASS; AArch64 ELF PASS; physical TensorView
 
 The public wheel replaces the stale-metadata internal wheel for public distribution.
 
+### Open3D 0.20 CUDA — public release R1
+
+```text
+open3d-0.20.0+cu132sm87-1synrexrelease1-cp312-cp312-linux_aarch64.whl
+SHA-256 fae18d4ec2f4f9ebf9d8ac98da73291d6a444e2d3a047a5d1ebc950f47b3b38a
+source b6c5e196384ad71e75b6e6f9c5da22d046221f1d
+```
+
+Scope: computational ELF bytes preserved; system libgfortran/TBB runtimes externalized; full physical CUDA/geometry/Torch requalification PASS.
+
 ### OpenCV 4.14 CUDA
 
 ```text
@@ -81,17 +91,7 @@ Scope: physical CUDA image operations PASS; CUDA DNN Conv+ReLU PASS. FFmpeg/GStr
 
 ## Release pending
 
-### Open3D 0.20 CUDA
-
-Accepted internal binary:
-
-```text
-open3d-0.20.0+cu132sm87-cp312-cp312-linux_aarch64.whl
-SHA-256 1cbde25126bef42ffbe9446ec68cc88e090eeddf3ac5c9980c6c637f3857efe2
-source b6c5e196384ad71e75b6e6f9c5da22d046221f1d
-```
-
-Pending: release-friendly dependency closure and full physical requalification of the replacement bytes.
+None for the intended R1 custom-wheel set.
 
 ## Base/vendor dependencies
 
