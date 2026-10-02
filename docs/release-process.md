@@ -22,7 +22,8 @@ The repository is populated and reviewed before any binary release is published.
 - repository-integrity CI: PASS on the bootstrap PR
 - PointROPE public-release rebuild: PASS
 - cumm public-release replacement: PASS; exact R1P2 bytes physically qualified in R1P3
-- Open3D release-friendly rebuild: pending
+- Open3D public-release replacement: PASS; full physical AGX CUDA/geometry/Torch requalification complete
+- intended custom-wheel set: 8/8 release candidates
 - binary GitHub Release: not yet created
 
 No unreleased binary should be referenced by an installation command.
