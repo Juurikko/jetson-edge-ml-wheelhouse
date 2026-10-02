@@ -21,7 +21,7 @@ The repository is populated and reviewed before any binary release is published.
 - `main` protection: active
 - repository-integrity CI: PASS on the bootstrap PR
 - PointROPE public-release rebuild: PASS
-- cumm replacement wheel: built and static-audited; physical requalification dependency-overlay correction pending
+- cumm public-release replacement: PASS; exact R1P2 bytes physically qualified in R1P3
 - Open3D release-friendly rebuild: pending
 - binary GitHub Release: not yet created
 
