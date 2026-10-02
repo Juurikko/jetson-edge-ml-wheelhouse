@@ -26,6 +26,7 @@ The repository is populated and reviewed before any binary release is published.
 - intended custom-wheel set: 8/8 release candidates
 - exact eight-wheel clean-install on physical AGX: PASS
 - AGX-generated final release manifest frozen by SHA-256
+- final manifest / clean-install receipt / evidence bundle preserved and independently verified off-device: PASS
 - binary GitHub Release: not yet created
 
 No unreleased binary should be referenced by an installation command.
