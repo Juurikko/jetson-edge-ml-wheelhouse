@@ -75,7 +75,9 @@ See [docs/installation.md](docs/installation.md).
 
 The first release will ship SHA-256 manifests, a machine-readable wheelhouse lock, and target-verification tooling.
 
-See [docs/verification.md](docs/verification.md).
+The repository itself is now guarded by a deterministic `repository-integrity` workflow. It validates the frozen target contract, candidate hashes, source-lock consistency, public-redaction rules, and that binary release payloads have not been committed to Git history.
+
+See [docs/verification.md](docs/verification.md), [the R1 candidate manifest](manifests/release-r1-candidates.json), and [source provenance](provenance/README.md).
 
 ## Case studies
 
@@ -94,7 +96,7 @@ This repository indexes artifacts derived from multiple upstream projects with d
 
 Each release asset will carry its own source, licence/notice and redistribution record. Vendor runtimes such as CUDA/cuDNN/NPP, PyTorch, FFmpeg/GStreamer and NVIDIA cuSPARSELt are treated separately and are not automatically rehosted.
 
-See [NOTICE.md](NOTICE.md).
+See [NOTICE.md](NOTICE.md), the [R1 notice index](notices/README.md), and the [release asset policy](docs/release-assets.md).
 
 ## Disclaimer
 
