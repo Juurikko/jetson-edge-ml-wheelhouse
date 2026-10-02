@@ -105,7 +105,15 @@ release-candidate record
 14bdef9a643133a7b90c9056838f9e3c0324e10544cbe67e90428ea127861828
 ```
 
-The evidence-bundle SHA is intentionally not recorded here until archive creation and off-device transfer are confirmed complete.
+Evidence bundle:
+
+```text
+SYNREX_OPEN3D_PUBLIC_RELEASE_R1.tar.gz
+bytes 1341454695
+SHA-256 5946f0d90e0c58af15dcdbd96c33d7faa6b6c13b32427895675ee6065893799d
+```
+
+The remote archive was observed only after the release script had reached its terminal COMPLETE state.
 
 ## Claim boundary
 
