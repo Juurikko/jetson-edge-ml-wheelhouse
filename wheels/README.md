@@ -56,6 +56,18 @@ Scope: static wheel/licence audit PASS; AArch64/SM87 PASS; physical CUDA smoke P
 
 This release rebuild supersedes the internal licence-incomplete `.1` wheel for public distribution.
 
+### cumm 0.8.2 — public release rebuild R1
+
+```text
+cumm_cu132-0.8.2-2agxrelease1-cp312-cp312-linux_aarch64.whl
+SHA-256 c3e3ae935079638dc255e3b1a923582787ac2220c8f1f98ab9b717121131c5d9
+source 4c77b38d1ab57d5d1c157adddf67dad93f3a446b
+```
+
+Scope: corrected Apache-2.0 metadata PASS; AArch64 ELF PASS; physical TensorView CUDA copy PASS; accepted spconv CUDA compatibility PASS.
+
+The public wheel replaces the stale-metadata internal wheel for public distribution.
+
 ### OpenCV 4.14 CUDA
 
 ```text
@@ -68,18 +80,6 @@ opencv_contrib source a8e9acd62cabd30419dba83007f2ac0d07de5e2c
 Scope: physical CUDA image operations PASS; CUDA DNN Conv+ReLU PASS. FFmpeg/GStreamer/CUDA runtime libraries are external dependencies, not bundled release assets.
 
 ## Release pending
-
-### cumm 0.8.2
-
-Accepted internal binary:
-
-```text
-cumm_cu132-0.8.2-1agxlocal0-cp312-cp312-linux_aarch64.whl
-SHA-256 d0a2b7c1d3011b7cbe9707bbbbf3f3ec72e08b5d3437bab1fb7572ea0316e1bd
-source 4c77b38d1ab57d5d1c157adddf67dad93f3a446b
-```
-
-Pending: packaging metadata cleanup from stale MIT metadata to the exact source Apache-2.0 licence, then physical/import requalification.
 
 ### Open3D 0.20 CUDA
 
