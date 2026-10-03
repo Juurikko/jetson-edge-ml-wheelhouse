@@ -10,7 +10,7 @@ import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from prepare import patch_setup
-from validate import elf_machine, validate_arch_evidence, validate_records
+from validate import elf_machine, validate_arch_evidence, validate_needed, validate_records
 
 
 class FactoryTests(unittest.TestCase):
@@ -28,6 +28,23 @@ class FactoryTests(unittest.TestCase):
             patch_setup(patched)
         with self.assertRaises(RuntimeError):
             patch_setup(original.replace('compiler_c17_flag', 'changed_upstream'))
+
+    def test_aarch64_glibc_loader_dependency(self):
+        # Actual DT_NEEDED from immutable run 37130165121 / artifact 11278673940.
+        validate_needed(['libc10.so', 'libtorch_cpu.so', 'libtorch_python.so',
+                         'libcudart.so.13', 'libc10_cuda.so', 'libtorch_cuda.so',
+                         'libstdc++.so.6', 'libgcc_s.so.1', 'libc.so.6',
+                         'ld-linux-aarch64.so.1'])
+
+    def test_unreviewed_dependencies_still_fail(self):
+        for dependency in ['libsurprise.so.1', 'libcudart.so.12', 'libcudart.so.14',
+                           'ld-linux-aarch64.so.2', 'ld-linux-aarch64_be.so.1',
+                           'ld-linux-x86-64.so.2', '/lib/ld-linux-aarch64.so.1',
+                           'ld-linux-aarch64.so.1.evil']:
+            with self.subTest(dependency=dependency), self.assertRaises(RuntimeError):
+                validate_needed(['libc.so.6', 'ld-linux-aarch64.so.1', dependency])
+        with self.assertRaises(RuntimeError):
+            validate_needed([])
 
     def test_exact_sm87(self):
         validate_arch_evidence('ELF file 1: kernel.sm_87.cubin', 'arch = sm_87\n', '')

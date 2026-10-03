@@ -70,6 +70,15 @@ def elf_machine(data: bytes) -> int:
     return struct.unpack_from('<H', data, 18)[0]
 
 
+def validate_needed(needed: list[str]) -> None:
+    # glibc 2.39 sysdeps/unix/sysv/linux/aarch64/shlib-versions names this
+    # exact little-endian AArch64 loader. No prefix/wildcard exceptions.
+    allowed = {'libc10.so', 'libtorch.so', 'libtorch_cpu.so', 'libtorch_python.so', 'libc10_cuda.so',
+               'libtorch_cuda.so', 'libcudart.so.13', 'libstdc++.so.6', 'libm.so.6', 'libgcc_s.so.1',
+               'libc.so.6', 'libpthread.so.0', 'libdl.so.2', 'librt.so.1', 'ld-linux-aarch64.so.1'}
+    require(bool(needed) and set(needed) <= allowed, 'Unreviewed ELF dependencies: ' + repr(set(needed) - allowed))
+
+
 def validate_arch_evidence(elf_listing: str, resources: str, ptx_listing: str) -> None:
     require(set(re.findall(r'\bsm_(\d+[a-z]?)\b', elf_listing)) == {'87'}, 'Missing SM87 SASS or unintended CUDA architectures')
     require(set(re.findall(r'arch\s*=\s*sm_(\d+[a-z]?)\b', resources)) == {'87'}, 'Resource headers do not prove exclusive SM87 code')
@@ -128,10 +137,7 @@ def audit() -> None:
         dynamic = command('readelf', '-d', str(elf))
         versions = command('readelf', '--version-info', str(elf))
         needed = re.findall(r'\(NEEDED\).*?\[(.*?)\]', dynamic)
-        allowed = {'libc10.so', 'libtorch.so', 'libtorch_cpu.so', 'libtorch_python.so', 'libc10_cuda.so',
-                   'libtorch_cuda.so', 'libcudart.so.13', 'libstdc++.so.6', 'libm.so.6', 'libgcc_s.so.1',
-                   'libc.so.6', 'libpthread.so.0', 'libdl.so.2', 'librt.so.1'}
-        require(bool(needed) and set(needed) <= allowed, 'Unreviewed ELF dependencies: ' + repr(set(needed) - allowed))
+        validate_needed(needed)
         require('(RPATH)' not in dynamic and '(RUNPATH)' not in dynamic, 'Unreviewed RPATH/RUNPATH')
         glibc_required = [tuple(map(int, v.split('.'))) for v in re.findall(r'\bGLIBC_(\d+(?:\.\d+)+)\b', versions)]
         require(not glibc_required or max(glibc_required) <= (2, 39), 'GLIBC newer than AGX')
