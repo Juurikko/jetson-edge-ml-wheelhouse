@@ -93,6 +93,8 @@ def compiler_abi_evidence(commands: str, work: Path, evidence: Path, elf: Path) 
 
 
 def recover(archive: Path, out: Path, work: Path, env: dict) -> dict:
+    # Compare the recorded JSON representation, not tuple-versus-list types.
+    env = json.loads(json.dumps(env))
     require(sha256(archive) == ARCHIVE_SHA256, 'Retained artifact archive digest mismatch')
     retained = work / 'retained-native-build'
     require(not retained.exists(), 'Retained audit directory already exists')
