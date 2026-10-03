@@ -173,9 +173,11 @@ def audit() -> None:
     require(bool(torch_inputs[0]['download_info']['archive_info']['hashes'].get('sha256')), 'Torch input SHA256 missing')
     for filename in ['source-lock.resolved.json', 'cuda-inputs.json', 'source-file-inventory.json',
                      'build-environment.json', 'torch-install-report.json', 'build-tools-install-report.json',
-                     'pip-inspect.json', 'pip-freeze.txt', 'build.log', 'factory/qualify_agx.py',
+                     'pip-inspect.json', 'pip-freeze.txt', 'dependency-gate.json', 'build.log', 'factory/qualify_agx.py',
                      'factory/litept_anchor.py', 'factory/NOTICE.md']:
         require((evidence / filename).is_file() and (evidence / filename).stat().st_size > 0, 'Incomplete evidence: ' + filename)
+    dependency_gate = json.loads((evidence / 'dependency-gate.json').read_text())
+    require(dependency_gate['status'] in ('PASS', 'PASS_WITH_VERIFIED_TAG_METADATA_EXCEPTION'), 'Dependency gate did not pass')
     manifest = {
         'schema': 'synrex.flash_attn2.ci_build_manifest.v1',
         'build_state': 'CI_BUILD_VALIDATED',
@@ -187,7 +189,7 @@ def audit() -> None:
         'environment': env, 'source_lock_sha256': sha256(evidence / 'source-lock.resolved.json'),
         'patch_sha256': sha256(evidence / 'upstream.patch'),
         'torch_input': torch_inputs[0]['download_info'],
-        'elfs': elf_inventory,
+        'elfs': elf_inventory, 'dependency_gate': dependency_gate,
         'limitations': ['No Orin GPU in GitHub CI', 'No physical import/forward/backward qualification',
                         'No official LitePT inference performed in CI', 'No performance claim'],
     }

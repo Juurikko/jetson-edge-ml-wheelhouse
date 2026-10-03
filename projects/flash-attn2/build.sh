@@ -27,7 +27,8 @@ python -m pip install --no-cache-dir --only-binary=:all: \
   'ninja==1.13.0' 'psutil==7.0.0' 'einops==0.8.1' 'numpy==2.5.2'
 python -m pip install --no-cache-dir --only-binary=:all: \
   --index-url https://download.pytorch.org/whl/cu132 \
-  --report "$FA_OUT/evidence/torch-install-report.json" 'torch==2.14.0+cu132'
+  --report "$FA_OUT/evidence/torch-install-report.json" \
+  'https://download-r2.pytorch.org/whl/cu132/torch-2.14.0%2Bcu132-cp312-cp312-manylinux_2_28_aarch64.whl#sha256=ace5d911d05b47e8c673ade02ff1736c70c66c3fa97cf85fe3d70d28c302799c'
 export LD_LIBRARY_PATH="$(python - <<'PY'
 import pathlib, site
 paths = []
@@ -38,7 +39,7 @@ print(':'.join(str(p) for p in paths if p.is_dir()))
 PY
 ):$CUDA_HOME/lib64:$CUDA_HOME/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 python "$PROJECT/validate.py" preflight
-python -m pip check | tee "$FA_OUT/evidence/pip-check.txt"
+python "$PROJECT/dependency_gate.py"
 python -m pip freeze --all > "$FA_OUT/evidence/pip-freeze.txt"
 python -m pip inspect > "$FA_OUT/evidence/pip-inspect.json"
 dpkg-query -W -f='${binary:Package}\t${Version}\n' > "$FA_OUT/evidence/runner-packages.tsv"

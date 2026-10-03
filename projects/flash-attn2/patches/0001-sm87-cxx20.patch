@@ -1,0 +1,34 @@
+--- a/setup.py
++++ b/setup.py
+@@ -176,6 +176,9 @@
+                 "Note: make sure nvcc has a supported version by running nvcc -V."
+             )
+ 
++    if "87" in cuda_archs():
++        cc_flag.append("-gencode")
++        cc_flag.append("arch=compute_87,code=sm_87")
+     if "80" in cuda_archs():
+         cc_flag.append("-gencode")
+         cc_flag.append("arch=compute_80,code=sm_80")
+@@ -196,9 +199,11 @@
+     if FORCE_CXX11_ABI:
+         torch._C._GLIBCXX_USE_CXX11_ABI = True
+ 
++    # Minimal Linux backport of upstream PR #2879 (corrected torch 2.14 gate).
++    cxx_standard = "c++20" if (TORCH_MAJOR, TORCH_MINOR) >= (2, 14) else "c++17"
+     nvcc_flags = [
+     "-O3",
+-    "-std=c++17",
++    f"-std={cxx_standard}",
+     "-U__CUDA_NO_HALF_OPERATORS__",
+     "-U__CUDA_NO_HALF_CONVERSIONS__",
+     "-U__CUDA_NO_HALF2_OPERATORS__",
+@@ -217,7 +222,7 @@
+     # "-DFLASHATTENTION_DISABLE_LOCAL",
+     ]
+ 
+-    compiler_c17_flag=["-O3", "-std=c++17"]
++    compiler_c17_flag=["-O3", f"-std={cxx_standard}"]
+     # Add Windows-specific flags
+     if sys.platform == "win32" and os.getenv('DISTUTILS_USE_SDK') == '1':
+         nvcc_flags.extend(["-Xcompiler", "/Zc:__cplusplus"])
