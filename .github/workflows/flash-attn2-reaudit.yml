@@ -7,6 +7,7 @@ on:
       - .github/workflows/flash-attn2-reaudit.yml
       - projects/flash-attn2/validate.py
       - projects/flash-attn2/build_evidence.py
+      - projects/flash-attn2/device_code_audit.py
       - projects/flash-attn2/build.sh
       - projects/flash-attn2/test_factory.py
   workflow_dispatch:

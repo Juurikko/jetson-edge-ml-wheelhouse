@@ -168,6 +168,8 @@ def audit(retained_archive: Path | None = None) -> None:
         elf_inventory.append({**entry, 'e_machine': 183, 'needed': needed, 'unresolved_driver_libraries': unresolved,
                               'sass_architectures': ['sm_87'], 'ptx_architectures': []})
     write_json(evidence / 'elf-inventory.json', elf_inventory)
+    from device_code_audit import full_device_audit
+    full_device_code = full_device_audit(cuobjdump, elf, evidence)
     from build_evidence import check_compile_contract, compiler_abi_evidence
     if origin is None:
         ninja_files = list((work / 'flash-attention/build').rglob('build.ninja'))
@@ -209,7 +211,7 @@ def audit(retained_archive: Path | None = None) -> None:
         'source_lock_sha256': sha256(evidence / 'source-lock.resolved.json'),
         'patch_sha256': sha256(evidence / 'upstream.patch'),
         'torch_input': torch_inputs[0]['download_info'],
-        'elfs': elf_inventory, 'dependency_gate': dependency_gate,
+        'elfs': elf_inventory, 'device_code_full_audit': full_device_code, 'dependency_gate': dependency_gate,
         'limitations': ['No Orin GPU in GitHub CI', 'No physical import/forward/backward qualification',
                         'No official LitePT inference performed in CI', 'No performance claim'],
     }

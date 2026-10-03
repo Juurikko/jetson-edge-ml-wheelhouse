@@ -10,6 +10,7 @@ import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from prepare import patch_setup
+from device_code_audit import validate_no_ptx_dump
 from build_evidence import check_compile_contract, retained_commands, recover
 from validate import elf_machine, validate_arch_evidence, validate_needed, validate_records
 
@@ -94,6 +95,15 @@ class FactoryTests(unittest.TestCase):
             p.write_bytes(b'not the pinned artifact')
             with self.assertRaisesRegex(RuntimeError, 'archive digest mismatch'):
                 recover(p, Path(directory), Path(directory), {})
+
+    def test_all_fatbinary_no_ptx(self):
+        validate_no_ptx_dump('')
+        validate_no_ptx_dump("cuobjdump info    : No PTX file found to extract from '/tmp/extension.so'. You may try with -all option.")
+        for bad in ['.version 8.8', 'Fatbin ptx code:\narch = sm_87',
+                    'cuobjdump fatal: unreadable binary', 'unrecognized output',
+                    "cuobjdump info : No PTX file found to extract from '/tmp/a.so'.\n.version 8.8"]:
+            with self.subTest(output=bad), self.assertRaises(RuntimeError):
+                validate_no_ptx_dump(bad)
 
     def test_exact_sm87(self):
         validate_arch_evidence('ELF file 1: kernel.sm_87.cubin', 'arch = sm_87\n', '')
