@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import base64
 import csv
+from email import message_from_bytes
 import hashlib
 import importlib.metadata
 import io
@@ -104,12 +105,16 @@ def validate_records(wheel: zipfile.ZipFile) -> list[dict]:
     return inventory
 
 
-def audit() -> None:
+def audit(retained_archive: Path | None = None) -> None:
     from packaging.utils import parse_wheel_filename
     out = Path(os.environ['FA_OUT']).resolve()
     evidence = out / 'evidence'
     work = Path(os.environ['FA_WORK']).resolve()
     env = environment()
+    origin = None
+    if retained_archive is not None:
+        from build_evidence import recover
+        origin = recover(retained_archive, out, work, env)
     wheels = list((out / 'wheel').glob('*.whl'))
     require(len(wheels) == 1, 'Expected exactly one real wheel')
     wheel_file = wheels[0]
@@ -126,6 +131,12 @@ def audit() -> None:
         require(len(metadata) == 1, 'Wheel metadata missing')
         (evidence / 'wheel-METADATA.txt').write_bytes(wheel.read(metadata[0]))
         require(any('LICENSE' in n.upper() for n in wheel.namelist()), 'Wheel license missing')
+        wheel_metadata = [n for n in wheel.namelist() if n.endswith('.dist-info/WHEEL')]
+        require(len(wheel_metadata) == 1, 'Wheel tag metadata missing or ambiguous')
+        wheel_tags = message_from_bytes(wheel.read(wheel_metadata[0]))
+        require(wheel_tags.get_all('Tag') == ['cp312-cp312-linux_aarch64']
+                and wheel_tags.get('Root-Is-Purelib', '').lower() == 'false', 'Internal wheel ABI/platform tag mismatch')
+        (evidence / 'wheel-WHEEL.txt').write_bytes(wheel.read(wheel_metadata[0]))
     write_json(evidence / 'wheel-content-inventory.json', inventory)
     elfs = [r for r in inventory if r['elf']]
     require(len(elfs) == 1 and Path(elfs[0]['path']).name.startswith('flash_attn_2_cuda'), 'Unexpected bundled ELF libraries')
@@ -157,17 +168,18 @@ def audit() -> None:
         elf_inventory.append({**entry, 'e_machine': 183, 'needed': needed, 'unresolved_driver_libraries': unresolved,
                               'sass_architectures': ['sm_87'], 'ptx_architectures': []})
     write_json(evidence / 'elf-inventory.json', elf_inventory)
-    ninja_files = list((work / 'flash-attention/build').rglob('build.ninja'))
-    require(len(ninja_files) == 1, 'Missing or ambiguous build command evidence')
-    ninja = ninja_files[0].read_text()
-    require(set(re.findall(r'arch=compute_(\d+)', ninja)) == {'87'}, 'Unintended nvcc compile targets')
-    require(set(re.findall(r'code=sm_(\d+)', ninja)) == {'87'}, 'Unintended nvcc SASS targets')
-    require('code=compute_' not in ninja, 'Unapproved PTX generation')
-    require('-std=c++20' in ninja and '-std=c++17' not in ninja, 'Torch C++ standard mismatch')
-    require('_GLIBCXX_USE_CXX11_ABI=1' in ninja, 'Missing positive CXX11 ABI compiler evidence')
-    shutil.copy2(ninja_files[0], evidence / 'build.ninja.txt')
-    commands = command('ninja', '-f', str(ninja_files[0]), '-t', 'commands', cwd=ninja_files[0].parent)
-    (evidence / 'compile-commands.txt').write_text(commands + '\n')
+    from build_evidence import check_compile_contract, compiler_abi_evidence
+    if origin is None:
+        ninja_files = list((work / 'flash-attention/build').rglob('build.ninja'))
+        require(len(ninja_files) == 1, 'Missing or ambiguous build command evidence')
+        ninja = ninja_files[0].read_text()
+        check_compile_contract(ninja)
+        shutil.copy2(ninja_files[0], evidence / 'build.ninja.txt')
+        commands = command('ninja', '-f', str(ninja_files[0]), '-t', 'commands', cwd=ninja_files[0].parent)
+        (evidence / 'compile-commands.txt').write_text(commands + '\n')
+    else:
+        commands = (evidence / 'compile-commands.txt').read_text()
+    abi_evidence = compiler_abi_evidence(commands, work, evidence, elf)
     source_lock = json.loads((evidence / 'source-lock.resolved.json').read_text())
     require(source_lock['factory_commit'] == env['factory_commit'], 'Source/factory provenance mismatch')
     require(sha256(evidence / 'upstream.patch') == source_lock['patch_policy']['applied_patch_sha256'], 'Patch digest mismatch')
@@ -192,7 +204,9 @@ def audit() -> None:
         'gpu_execution_performed': False, 'published_release': False,
         'wheel': {'filename': wheel_file.name, 'sha256': sha256(wheel_file), 'bytes': wheel_file.stat().st_size},
         'target_contract': json.loads((evidence / 'target-contract.json').read_text()),
-        'environment': env, 'source_lock_sha256': sha256(evidence / 'source-lock.resolved.json'),
+        'environment': origin['original_environment'] if origin else env,
+        'audit_environment': env, 'retained_build': origin, 'compiler_abi_evidence': abi_evidence,
+        'source_lock_sha256': sha256(evidence / 'source-lock.resolved.json'),
         'patch_sha256': sha256(evidence / 'upstream.patch'),
         'torch_input': torch_inputs[0]['download_info'],
         'elfs': elf_inventory, 'dependency_gate': dependency_gate,
@@ -210,13 +224,14 @@ def audit() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('mode', choices=['preflight', 'audit'])
+    parser.add_argument('--retained-native-build-37130165121', type=Path, default=None)
     args = parser.parse_args()
     if args.mode == 'preflight':
         evidence = Path(os.environ['FA_OUT']) / 'evidence'
         write_json(evidence / 'build-environment.json', environment())
         print('Exact native compiler/Torch/Python contract: PASS', flush=True)
     else:
-        audit()
+        audit(args.retained_native_build_37130165121)
 
 
 if __name__ == '__main__':

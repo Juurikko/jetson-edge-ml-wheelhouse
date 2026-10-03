@@ -10,6 +10,7 @@ import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from prepare import patch_setup
+from build_evidence import check_compile_contract, retained_commands, recover
 from validate import elf_machine, validate_arch_evidence, validate_needed, validate_records
 
 
@@ -45,6 +46,54 @@ class FactoryTests(unittest.TestCase):
                 validate_needed(['libc.so.6', 'ld-linux-aarch64.so.1', dependency])
         with self.assertRaises(RuntimeError):
             validate_needed([])
+
+    def compile_fixture(self):
+        sources = ['csrc/flash_attn/flash_api.cpp'] + sorted(
+            f'csrc/flash_attn/src/flash_{direction}_hdim{dim}_{dtype}{causal}_sm80.cu'
+            for direction in ('bwd', 'fwd', 'fwd_split') for dim in (32, 64, 96, 128, 192, 256)
+            for dtype in ('fp16', 'bf16') for causal in ('', '_causal'))
+        rows = []
+        for i, source in enumerate(sources, 1):
+            compiler = 'g++-13' if i == 1 else '/cuda/bin/nvcc'
+            flags = '' if i == 1 else ' -gencode arch=compute_87,code=sm_87 --threads 1'
+            rows.append(f'[{i}/73] {compiler} -std=c++20{flags} -c /work/flash-attention/{source} -o output.o')
+        rows.append('g++-13 -shared -o flash_attn_2_cuda.cpython-312-aarch64-linux-gnu.so')
+        rows.append("creating 'flash_attn-2.8.3.post1+cu132torch214.sm87.synrex0-cp312-cp312-linux_aarch64.whl'")
+        rows.append('removing build/bdist.linux-aarch64/wheel')
+        return '\n'.join(rows)
+
+    def test_complete_retained_commands(self):
+        text = retained_commands(self.compile_fixture())
+        self.assertEqual(text.count('/bin/nvcc '), 72)
+
+    def test_incomplete_or_modified_retained_commands_fail(self):
+        original = self.compile_fixture()
+        for modified in [original.replace('[73/73]', '[72/73]'),
+                         original.replace('code=sm_87', 'code=sm_80', 1),
+                         original.replace('flash_fwd_hdim32_bf16_sm80.cu', 'unreviewed.cu'),
+                         original.replace('g++-13 -shared', 'unreviewed-linker -shared'),
+                         original.replace('-std=c++20', '-std=c++17', 1)]:
+            with self.assertRaises(RuntimeError):
+                retained_commands(modified)
+
+    def test_abi_zero_override_fails(self):
+        flags = '-std=c++20 -gencode arch=compute_87,code=sm_87'
+        check_compile_contract(flags)  # Missing redundant define still needs real ABI probes at audit.
+        check_compile_contract(flags + ' -D_GLIBCXX_USE_CXX11_ABI=1')
+        for extra in [' -D_GLIBCXX_USE_CXX11_ABI=0', ' -U_GLIBCXX_USE_CXX11_ABI',
+                      ' -D_GLIBCXX_USE_CXX11_ABI=1 -D_GLIBCXX_USE_CXX11_ABI=0',
+                      ' -gencode arch=compute_87,code=compute_87',
+                      ' -gencode arch=compute_87a,code=sm_87a']:
+            with self.subTest(extra=extra), self.assertRaises(RuntimeError):
+                check_compile_contract(flags + extra)
+
+    def test_arbitrary_retained_archive_fails(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as directory:
+            p = Path(directory) / 'wrong.zip'
+            p.write_bytes(b'not the pinned artifact')
+            with self.assertRaisesRegex(RuntimeError, 'archive digest mismatch'):
+                recover(p, Path(directory), Path(directory), {})
 
     def test_exact_sm87(self):
         validate_arch_evidence('ELF file 1: kernel.sm_87.cubin', 'arch = sm_87\n', '')

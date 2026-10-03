@@ -54,6 +54,12 @@ if mem < 12 * 1024 * 1024:
 if shutil.disk_usage(os.environ['FA_WORK']).free < 12 * 1024**3:
     raise SystemExit('Less than 12 GiB free before FlashAttention compilation')
 PY
+# A digest-bound re-audit reuses only immutable run 37130165121 bytes. It still
+# runs the exact source/toolchain preflight and all final static gates.
+if [[ -n "${FA_REAUDIT_ARCHIVE:-}" ]]; then
+  python "$PROJECT/validate.py" audit --retained-native-build-37130165121 "$FA_REAUDIT_ARCHIVE"
+  exit 0
+fi
 cat > "$FA_WORK/sm87-probe.cu" <<'CUDA'
 #include <cuda_runtime.h>
 #include <cuda_fp16.h>
