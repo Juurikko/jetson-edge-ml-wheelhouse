@@ -1,0 +1,69 @@
+{
+  "schema": "synrex.flash_attn2.source_lock.v1",
+  "project": "flash-attn2-cu132-sm87-r0",
+  "base_wheelhouse_commit": "485bfb9828513426dc06708fe8786dd6126f9136",
+  "target_contract": "targets/agx-orin-r39.2.1-cu13.2-py312-sm87/target-contract.json",
+  "upstream": {
+    "repository": "https://github.com/Dao-AILab/flash-attention.git",
+    "tag": "v2.8.3.post1",
+    "tag_object": "91ffc2ac7c36f333efa23bde332ba2727a39d093",
+    "commit": "a8aa52b1ab3e9ca574c8a33b3f35afc017ffa2e2",
+    "setup_git_blob": "d180c18c02c90bd9581e71a6daa60c23f462b3d2",
+    "license": "BSD-3-Clause"
+  },
+  "cutlass": {
+    "repository": "https://github.com/NVIDIA/cutlass.git",
+    "commit": "dc4817921edda44a549197ff3a9dcf5df0636e7b"
+  },
+  "patch_policy": {
+    "allowed_files": ["setup.py"],
+    "deltas": [
+      "Add explicit compute_87/code=sm_87 selection for FLASH_ATTN_CUDA_ARCHS=87; keep upstream kernels unchanged.",
+      "Backport the Linux C++20 selection required by torch >= 2.14; no Windows/ROCm changes or unrelated upstream cherry-picks."
+    ],
+    "cxx20_upstream_commits": ["949a7f76907bfe5c8625d4224a6f19d0c113cfea", "eabdfc6e9411a47700abb4f50779c185c851c986"],
+    "cxx20_upstream_pr": "https://github.com/Dao-AILab/flash-attention/pull/2879",
+    "applied_patch_sha256": "3cad833188ecc3e4fe9f8d9c0c45dea141e03de40421cf36eb819dacc708d5bd",
+    "expected_sha256": "3cad833188ecc3e4fe9f8d9c0c45dea141e03de40421cf36eb819dacc708d5bd",
+    "patch_file": "patches/0001-sm87-cxx20.patch"
+  },
+  "cuda": {
+    "redistrib_url": "https://developer.download.nvidia.com/compute/cuda/redist/redistrib_13.2.2.json",
+    "release_label": "13.2.2",
+    "nvcc": "13.2.86",
+    "nvcc_archive_sha256": "0ae0716074fb8ca9a2eaebb0acd1425d8a41904ace1320793bbad270c3ce043f",
+    "platform": "linux-sbsa",
+    "components": ["cuda_nvcc", "cuda_crt", "cuda_cudart", "cuda_cccl", "cuda_cuobjdump", "cuda_nvdisasm", "libnvvm"]
+  },
+  "torch": {
+    "version": "2.14.0+cu132",
+    "cuda": "13.2",
+    "git": "08187d9e0fba026dc8217405802ab5381dc88d90",
+    "cxx11_abi": true,
+    "index_url": "https://download.pytorch.org/whl/cu132",
+    "wheel_url": "https://download-r2.pytorch.org/whl/cu132/torch-2.14.0%2Bcu132-cp312-cp312-manylinux_2_28_aarch64.whl",
+    "wheel_sha256": "ace5d911d05b47e8c673ade02ff1736c70c66c3fa97cf85fe3d70d28c302799c"
+  },
+  "build": {
+    "runner": "ubuntu-24.04-arm", "python": "3.12.3", "gcc": "13.3.0", "gxx": "13.3.0", "glibc": "2.39",
+    "cuda_archs": ["87"], "max_jobs": 2, "nvcc_threads": 1, "ptx_allowed": false,
+    "local_version": "cu132torch214.sm87.synrex0", "force_source_build": true,
+    "fp16": true, "bf16": true, "backward": true
+  },
+  "litept": {
+    "repository": "https://github.com/prs-eth/LitePT.git",
+    "commit": "436d04801c8151faebe66a1b2d368a9711e7e6aa",
+    "qualification_requires_official_inference_anchor": true,
+    "reuse_qualified_components": ["cumm", "spconv", "pointrope"], "rebuild_dependencies": false
+  },
+  "evidence_policy": {
+    "ci_pass": "CI_BUILD_VALIDATED", "ci_physical_state": "CANDIDATE_NOT_PHYSICALLY_QUALIFIED",
+    "physical_pass": "PHYSICAL_AGX_QUALIFIED", "publish_from_ci": false
+  },
+  "dependency_metadata_policy": {
+    "package": "nvidia-cusparselt-cu13", "version": "0.8.1",
+    "input_sha256": "4dca476c50bf4780d46cd0bfbd82e2bc10a08e4fef7950917ce8d7578d22a23f",
+    "warning": "nvidia-cusparselt-cu13 0.8.1 is not supported on this platform",
+    "accept_only_after_all_elfs_confirmed_aarch64": true, "metadata_or_binary_modification": false
+  }
+}

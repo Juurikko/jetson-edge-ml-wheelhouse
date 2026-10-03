@@ -1,0 +1,95 @@
+name: FlashAttention-2 retained native wheel full audit
+
+on:
+  push:
+    branches: [build/flash-attn2-cu132-sm87-r0]
+    paths:
+      - .github/workflows/flash-attn2-reaudit.yml
+      - projects/flash-attn2/validate.py
+      - projects/flash-attn2/build_evidence.py
+      - projects/flash-attn2/device_code_audit.py
+      - projects/flash-attn2/build.sh
+      - projects/flash-attn2/test_factory.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: flash-attn2-reaudit-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reaudit:
+    name: Audit exact retained AArch64 wheel / all static gates / no GPU
+    if: github.repository == 'Juurikko/jetson-edge-ml-wheelhouse' && github.event.repository.private == false
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Preserve R1 and frozen inputs; test fail-closed gates
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          git diff --exit-code 485bfb9828513426dc06708fe8786dd6126f9136 HEAD -- manifests provenance qualification targets .github/workflows/repository-integrity.yml
+          git diff --exit-code e3214a869926c78477ea3b92a43c335ec4c40445 HEAD -- projects/flash-attn2/source-lock.json projects/flash-attn2/cuda-inputs.lock.json projects/flash-attn2/prepare.py projects/flash-attn2/dependency_gate.py projects/flash-attn2/patches
+          git diff --check
+          python3 tools/verify_repository.py
+          python3 -m py_compile projects/flash-attn2/*.py
+          python3 projects/flash-attn2/test_factory.py
+      - name: Prepare disposable native audit runner
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test "$(uname -m)" = aarch64
+          test "$RUNNER_ENVIRONMENT" = github-hosted
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
+          if command -v docker >/dev/null; then docker system prune -af || true; fi
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-13 g++-13 python3.12 python3.12-dev python3.12-venv binutils git ca-certificates xz-utils pkg-config
+          sudo apt-get clean
+          mkdir -p "$RUNNER_TEMP/flash-attn2-work" "$RUNNER_TEMP/flash-attn2-out/evidence"
+          echo "FA_WORK=$RUNNER_TEMP/flash-attn2-work" >> "$GITHUB_ENV"
+          echo "FA_OUT=$RUNNER_TEMP/flash-attn2-out" >> "$GITHUB_ENV"
+          echo "FA_REAUDIT_ARCHIVE=$RUNNER_TEMP/native-attempt-37130165121.zip" >> "$GITHUB_ENV"
+      - name: Fetch immutable failed attempt and verify original archive digest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          curl --fail --location --silent --show-error --retry 3 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            https://api.github.com/repos/Juurikko/jetson-edge-ml-wheelhouse/actions/artifacts/11278673940/zip \
+            -o "$FA_REAUDIT_ARCHIVE"
+          echo "a3518f362977dd924318816dbffe8efd4351494f693331d02612ac725e73f206  $FA_REAUDIT_ARCHIVE" | sha256sum --check
+      - name: Independently re-prepare same locked sources and CUDA tools
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 -u projects/flash-attn2/prepare.py 2>&1 | tee "$FA_OUT/evidence/prepare.log"
+      - name: Exact native preflight and full audit of unchanged wheel
+        shell: bash
+        run: bash projects/flash-attn2/build.sh
+      - name: Verify complete candidate bundle before reporting success
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          cd "$FA_OUT"
+          sha256sum --check SHA256SUMS
+          echo '## Retained native FlashAttention-2 wheel audit' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Original build remains failed run 37130165121. This run audits its exact retained wheel; it is not a new native compilation.' >> "$GITHUB_STEP_SUMMARY"
+          cat build-manifest.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Preserve full attempt, original failure archive and candidate; no release publication
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: flash-attn2-sm87-reaudit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/flash-attn2-out/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 90

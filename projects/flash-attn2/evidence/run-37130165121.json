@@ -1,0 +1,29 @@
+{
+  "schema": "synrex.flash_attn2.preserved_failure.v1",
+  "repository": "Juurikko/jetson-edge-ml-wheelhouse",
+  "run_id": 37130165121,
+  "run_attempt": 1,
+  "factory_commit": "e3214a869926c78477ea3b92a43c335ec4c40445",
+  "conclusion": "failure",
+  "artifact_id": 11278673940,
+  "artifact_name": "flash-attn2-sm87-attempt-37130165121-1",
+  "artifact_bytes": 62784527,
+  "artifact_zip_sha256": "a3518f362977dd924318816dbffe8efd4351494f693331d02612ac725e73f206",
+  "wheel_filename": "flash_attn-2.8.3.post1+cu132torch214.sm87.synrex0-cp312-cp312-linux_aarch64.whl",
+  "wheel_bytes": 59708621,
+  "wheel_sha256": "56e8b5d91ce789a7ded1cbc01e0f88b43346e9d6c34c5414b517e1823f35c9cd",
+  "native_build_completed": true,
+  "static_audit_completed": false,
+  "failure": "Unreviewed ELF dependencies: {'ld-linux-aarch64.so.1'}",
+  "physical_state": "CANDIDATE_NOT_PHYSICALLY_QUALIFIED",
+  "upstream_commit": "a8aa52b1ab3e9ca574c8a33b3f35afc017ffa2e2",
+  "patch_sha256": "3cad833188ecc3e4fe9f8d9c0c45dea141e03de40421cf36eb819dacc708d5bd",
+  "preservation": "Never delete, rerun over, replace, relabel as successful, or publish this failed attempt as qualified. Retain its original archive bytes when making later audit bundles.",
+  "independent_verification": {
+    "archive_and_wheel_sha256": "MATCHED downloaded artifact bytes",
+    "loader_source": "https://github.com/bminor/glibc/blob/glibc-2.39/sysdeps/unix/sysv/linux/aarch64/shlib-versions",
+    "loader_source_git_blob": "e1768a7361ed720f589056f1f8bd06f0eba7abba",
+    "loader_name": "ld-linux-aarch64.so.1",
+    "loader_meaning": "glibc 2.39 little-endian AArch64 dynamic loader; exact standard dependency, not an added third-party library"
+  }
+}
