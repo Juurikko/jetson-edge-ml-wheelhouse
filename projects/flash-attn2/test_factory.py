@@ -98,6 +98,15 @@ class FactoryTests(unittest.TestCase):
 
     def test_all_fatbinary_no_ptx(self):
         validate_no_ptx_dump('')
+        header = ('Fatbin elf code:\n================\narch = sm_87\n'
+                  'code version = [1,8]\nhost = linux\ncompile_size = 64bit\n\n')
+        validate_no_ptx_dump(header * 72)
+        for bad_header in [header.replace('sm_87', 'sm_80'),
+                           header.replace('elf code', 'ptx code'),
+                           header + '.version 8.8\n.target sm_87',
+                           header + 'unrecognized output']:
+            with self.assertRaises(RuntimeError):
+                validate_no_ptx_dump(bad_header)
         validate_no_ptx_dump("cuobjdump info    : No PTX file found to extract from '/tmp/extension.so'. You may try with -all option.")
         for bad in ['.version 8.8', 'Fatbin ptx code:\narch = sm_87',
                     'cuobjdump fatal: unreadable binary', 'unrecognized output',

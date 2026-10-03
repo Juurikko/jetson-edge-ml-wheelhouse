@@ -7,9 +7,13 @@ from prepare import command, require, sha256, write_json
 
 
 def validate_no_ptx_dump(text: str) -> None:
-    # No arbitrary warning/error/unknown output can be interpreted as no PTX.
-    message = text.strip()
-    require(not message or re.fullmatch(r"cuobjdump info\s*: No PTX file found to extract from '[^'\n]+'\.(?: You may try with -all option\.)?", message) is not None,
+    # CUDA 13.2 prints ELF-only fatbinary headers even for --dump-ptx.
+    # Remove only complete, exact SM87/Linux/64-bit ELF header blocks; any
+    # PTX body/header, other architecture or unknown text remains a failure.
+    header = (r"Fatbin elf code:\n=+\narch = sm_87\n"
+              r"code version = \[1,8\]\nhost = linux\ncompile_size = 64bit(?:\n|$)")
+    remainder = re.sub(header, '', text).strip()
+    require(not remainder or re.fullmatch(r"cuobjdump info\s*: No PTX file found to extract from '[^'\n]+'\.(?: You may try with -all option\.)?", remainder) is not None,
         'PTX code or unrecognized all-fatbinary PTX inspection output')
 
 
