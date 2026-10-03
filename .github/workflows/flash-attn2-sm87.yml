@@ -1,0 +1,94 @@
+name: FlashAttention-2 ARM64 SM87 candidate
+
+on:
+  push:
+    branches:
+      - build/flash-attn2-cu132-sm87-r0
+    paths:
+      - .github/workflows/flash-attn2-sm87.yml
+      - projects/flash-attn2/**
+      - '!projects/flash-attn2/**/*.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flash-attn2-sm87-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-candidate:
+    name: Native ARM64 / cp312 / CUDA 13.2.86 / SM87 only
+    if: github.repository == 'Juurikko/jetson-edge-ml-wheelhouse' && github.event.repository.private == false
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 330
+    steps:
+      - name: Check out exact factory revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Preserve public R1 and test fail-closed gates
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          git diff --exit-code 485bfb9828513426dc06708fe8786dd6126f9136 HEAD -- manifests provenance qualification targets .github/workflows/repository-integrity.yml
+          git diff --check
+          python3 tools/verify_repository.py
+          python3 -m py_compile projects/flash-attn2/*.py
+          python3 projects/flash-attn2/test_factory.py
+
+      - name: Prepare disposable runner disk and native system compiler
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test "$(uname -m)" = aarch64
+          df -h /
+          free -h
+          # Only disposable hosted-runner SDKs/caches; never a self-hosted device.
+          test "${RUNNER_ENVIRONMENT}" = github-hosted
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
+          if command -v docker >/dev/null; then docker system prune -af || true; fi
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-13 g++-13 python3.12 python3.12-dev python3.12-venv binutils git ca-certificates xz-utils pkg-config
+          sudo apt-get clean
+          mkdir -p "$RUNNER_TEMP/flash-attn2-work" "$RUNNER_TEMP/flash-attn2-out/evidence"
+          echo "FA_WORK=$RUNNER_TEMP/flash-attn2-work" >> "$GITHUB_ENV"
+          echo "FA_OUT=$RUNNER_TEMP/flash-attn2-out" >> "$GITHUB_ENV"
+          df -h /
+
+      - name: Verify exact upstream, emit minimal patch and provision hash-locked CUDA
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 -u projects/flash-attn2/prepare.py 2>&1 | tee "$FA_OUT/evidence/prepare.log"
+
+      - name: Build exact wheel and audit CPU ABI, GPU code and provenance
+        shell: bash
+        run: bash projects/flash-attn2/build.sh
+
+      - name: Report evidence boundary
+        if: always()
+        shell: bash
+        run: |
+          echo '## FlashAttention-2 ARM64 / SM87 candidate' >> "$GITHUB_STEP_SUMMARY"
+          if test -f "${FA_OUT:-/nonexistent}/build-manifest.json" && test -f "${FA_OUT:-/nonexistent}/SHA256SUMS"; then
+            echo 'Static build gates passed: CI_BUILD_VALIDATED.' >> "$GITHUB_STEP_SUMMARY"
+            echo 'Physical state: CANDIDATE_NOT_PHYSICALLY_QUALIFIED. No Orin GPU execution occurred.' >> "$GITHUB_STEP_SUMMARY"
+            cat "$FA_OUT/build-manifest.json" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Build/static validation incomplete or failed. No validated wheel is claimed.' >> "$GITHUB_STEP_SUMMARY"
+            echo 'Attempt artifacts are diagnostics, not a qualification or publication record.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Preserve attempt evidence without publishing a release
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: flash-attn2-sm87-attempt-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/flash-attn2-out/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 30
