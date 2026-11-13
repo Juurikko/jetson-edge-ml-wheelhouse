@@ -356,17 +356,17 @@ def verify_redaction(files: list[Path]) -> None:
         rel = path.relative_to(ROOT).as_posix()
 
         if PRIVATE_HOME in content:
-            findings.append((rel, "private_linux_home", PRIVATE_HOME))
-        for match in private_host_re.finditer(content):
-            findings.append((rel, "private_hostname", match.group(0)))
+            findings.append((rel, "private_linux_home"))
+        if private_host_re.search(content):
+            findings.append((rel, "private_hostname"))
         for label, pattern in SENSITIVE_PATTERNS.items():
-            for match in pattern.finditer(content):
-                findings.append((rel, label, match.group(0)))
+            if pattern.search(content):
+                findings.append((rel, label))
 
     if findings:
         rendered = "; ".join(
-            f"{path}:{label}:{value}"
-            for path, label, value in findings[:20]
+            f"{path!r}:{label}"
+            for path, label in findings[:20]
         )
         raise VerifyError(f"public redaction scan failed: {rendered}")
 

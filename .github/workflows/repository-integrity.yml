@@ -25,3 +25,6 @@ jobs:
 
       - name: Verify target, manifests, provenance and redaction
         run: python3 tools/verify_repository.py
+
+      - name: Run verifier regression tests
+        run: python3 -m unittest discover -s tests
